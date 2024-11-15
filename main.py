@@ -5,13 +5,13 @@ import sys
 import warnings
 import os
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from common.metrics import compute_mae, compute_rmse, compute_mdape, compute_corr
 from common.visualize import plot_predictions
 from common.logger import Logger
 from config.config import CORE_CNT, DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETER, HYBRID_PARAMETER
-from data.data_loader import load_data, split_data, create_dataloaders
+from data.data_loader_new import load_data, split_data, create_dataloaders
 from model.nlinear.execute_module import NLinearModel
 from model.hybrid.execute_module import HybridModel, CNN_NLinear
 from model.hyperoptimize import optimize_hybrid
@@ -148,3 +148,4 @@ if __name__ == "__main__":
     # ------------------------------------ End of Process ------------------------------------
     END_TIME = datetime.now()
     print('main.py Elapsed time: {!s}'.format(END_TIME - ST_TIME))
+    exit()

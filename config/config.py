@@ -20,7 +20,7 @@ NLINEAR_PARAMETER = {
     "window_size": 96,
     "forecast_size": 96,
     "individual": False,
-    "learning_rate": 0.001,
+    "learning_rate": 0.0001,
     "epochs": 100,
     "batch_size": 32,
     "input_size": 30,
