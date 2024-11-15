@@ -1,48 +1,48 @@
-# Final Project: Machine Learning Theory at Sungkyunkwan University
-
-### Overview
-This repository contains the final project for the Machine Learning Theory course under the Department of Data Science, Sungkyunkwan University. 
-The project implements and extends the findings from the paper "Are Transformers Effective for Time Series Forecasting?".
-Link: https://arxiv.org/pdf/2205.13504
-
-### Objectives
-1. **Paper Implementation**: Implement the models and methods presented in the paper "Are Transformers Effective for Time Series Forecasting?".
-2. **Model Improvement**: Develop and improve upon the models suggested in the paper, with a focus on enhancing performance for long-term time series forecasting tasks.
-3. **Model Combination**: Specifically, combine CNN and NLinear models to improve forecasting accuracy for univariate time series data.
-
+# Final Project: Advanced Machine Learning Theory at Sungkyunkwan University   
+   
+### Overview   
+This repository contains the final project for the Advanced Machine Learning Theory course under the Department of Data Science, Sungkyunkwan University.    
+The project implements and extends the findings from the paper "Are Transformers Effective for Time Series Forecasting?".   
+Link: https://arxiv.org/pdf/2205.13504   
+   
+### Objectives   
+1. **Paper Implementation**: Implement the models and methods presented in the paper "Are Transformers Effective for Time Series Forecasting?".   
+2. **Model Improvement**: Develop and improve upon the models suggested in the paper, with a focus on enhancing performance for long-term time series forecasting tasks.   
+3. **Model Combination**: Specifically, combine CNN and NLinear models to improve forecasting accuracy for univariate time series data.   
+   
 ### Data and Task
-The dataset used in this project is tailored for long-term time series forecasting. The focus is on univariate time series, aiming to predict future values based on past observations.
-
-### Approach
-- **Initial Implementation**: Recreate the models from the paper to establish a baseline.
-- **Model Enhancement**: Introduce improvements to the baseline models by integrating CNN and NLinear architectures.
-- **Evaluation**: Assess the performance of the models using metrics such as MAE, RMSE, MdAPE, and CORR on both validation and test sets.
-
+The dataset used in this project is tailored for long-term time series forecasting. The focus is on univariate time series, aiming to predict future values based on past observations.   
+   
+### Approach   
+- **Initial Implementation**: Recreate the models from the paper to establish a baseline.   
+- **Model Enhancement**: Introduce improvements to the baseline models by integrating CNN and NLinear architectures.   
+- **Evaluation**: Assess the performance of the models using metrics such as MAE, RMSE, MdAPE, and CORR on both validation and test sets.   
+   
 ### Repository Structure
-ltsf_linear
-├── common
-│   ├── __init__.py
-│   ├── exception.py
-│   ├── logger.py
-│   ├── metrics.py
-│   └── visualize.py
-├── config
-│   ├── __init__.py
-│   └── config.py
-├── data
-│   ├── __init__.py
-│   └── data_loader.py
-├── main.py
-└── model
-    ├── __init__.py
-    ├── hybrid
-    │   ├── __init__.py
-    │   └── execute_module.py
-    ├── hyperoptimize.py
-    └── nlinear
-        ├── __init__.py
-        └── execute_module.py
-
+ltsf_linear   
+├── common   
+│   ├── __init__.py   
+│   ├── exception.py   
+│   ├── logger.py   
+│   ├── metrics.py   
+│   └── visualize.py   
+├── config   
+│   ├── __init__.py   
+│   └── config.py   
+├── data   
+│   ├── __init__.py   
+│   └── data_loader.py   
+├── main.py   
+└── model   
+    ├── __init__.py   
+    ├── hybrid   
+    │   ├── __init__.py   
+    │   └── execute_module.py   
+    ├── hyperoptimize.py   
+    └── nlinear   
+        ├── __init__.py   
+        └── execute_module.py   
+   
 ### Getting Started
 1. Clone the repository:
     ```bash
