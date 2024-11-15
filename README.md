@@ -21,28 +21,27 @@ The dataset used in this project is tailored for long-term time series forecasti
 ### Repository Structure
 ltsf_linear
 ├── common
-│   ├── __init__.py
-│   ├── exception.py
-│   ├── logger.py
-│   ├── metrics.py
-│   └── visualize.py
+│   ├── __init__.py
+│   ├── exception.py
+│   ├── logger.py
+│   ├── metrics.py
+│   └── visualize.py
 ├── config
-│   ├── __init__.py
-│   └── config.py
+│   ├── __init__.py
+│   └── config.py
 ├── data
-│   ├── __init__.py
-│   └── data_loader.py
+│   ├── __init__.py
+│   └── data_loader.py
 ├── main.py
 └── model
     ├── __init__.py
     ├── hybrid
-    │   ├── __init__.py
-    │   └── execute_module.py
+    │   ├── __init__.py
+    │   └── execute_module.py
     ├── hyperoptimize.py
     └── nlinear
         ├── __init__.py
         └── execute_module.py
-
 
 ### Getting Started
 1. Clone the repository:
