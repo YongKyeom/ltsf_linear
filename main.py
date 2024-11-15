@@ -29,6 +29,8 @@ pd.options.display.max_colwidth = 30
 
 
 if __name__ == "__main__":
+    ST_TIME = datetime.now()
+    
     ## ------------------------------------ Logger ------------------------------------ ##
     CREATED_TIME = datetime.now()
     LOG_PATH = "./logs/"
@@ -41,6 +43,7 @@ if __name__ == "__main__":
 
     logger.info("NLinear, CNN_NLiear Hybrid is Start")
 
+    
     ## ------------------------------------ Load Data ------------------------------------ ##
     # Load and split data
     raw_data = load_data("ETTh1", date_col_nm=DATE_COL_NM, target_col_nm=TARGET_COL_NM)
@@ -59,6 +62,7 @@ if __name__ == "__main__":
         batch_size=NLINEAR_PARAMETER["batch_size"],
     )
 
+    
     ## ------------------------------------ NLinear Training ------------------------------------ ##
     # Hyper paremter of NLinear
     nlinear_params = NLINEAR_PARAMETER["default_space"]
@@ -79,6 +83,7 @@ if __name__ == "__main__":
     # Train NLinear model
     nlinear_model.train_model(train_loader, val_loader, device)
 
+    
     ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
     logger.info("Starting Hybrid model optimization.")
@@ -119,6 +124,7 @@ if __name__ == "__main__":
     # Train Hybrid model
     hybrid_model.train_model(train_loader, val_loader, device)
 
+    
     ## ------------------------------------ Predict for test set ------------------------------------ ##
     nlinear_predictions = nlinear_model.predict(test_loader, device)
     cnn_nlinear_predictions = cnn_nlinear_model.predict(test_loader, device)
@@ -133,6 +139,12 @@ if __name__ == "__main__":
         logger.info(f"CNN_NLinear {name}: {func(test_data, cnn_nlinear_predictions)}")
         logger.info(f"Hybrid {name}: {func(test_data, hybrid_predictions)}")
 
+    
     ## ------------------------------------ Visualize Predict Result ------------------------------------ ##
     # Plot predictions
     plot_predictions(train_data, val_data, test_data, {"NLinear": nlinear_predictions, "Hybrid": hybrid_predictions})
+
+    
+    # ------------------------------------ End of Process ------------------------------------
+    END_TIME = datetime.now()
+    print('main.py Elapsed time: {!s}'.format(END_TIME - ST_TIME))
