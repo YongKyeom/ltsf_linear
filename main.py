@@ -143,17 +143,17 @@ if __name__ == "__main__":
 
     # Evaluate both models
     logger.info("Evaluating models.")
-    metrics = {"MAE": compute_mae, "RMSE": compute_rmse, "MdAPE": compute_mdape, "CORR": compute_corr}
+    # metrics = {"MAE": compute_mae, "RMSE": compute_rmse, "MdAPE": compute_mdape, "CORR": compute_corr}
 
-    for name, func in metrics.items():
-        logger.info(f"NLinear {name}: {func(test_data, nlinear_predictions)}")
-        logger.info(f"CNN_NLinear {name}: {func(test_data, cnn_nlinear_predictions)}")
-        logger.info(f"Hybrid {name}: {func(test_data, hybrid_predictions)}")
+    # for name, func in metrics.items():
+    #     logger.info(f"NLinear {name}: {func(test_data, nlinear_predictions)}")
+    #     logger.info(f"CNN_NLinear {name}: {func(test_data, cnn_nlinear_predictions)}")
+    #     logger.info(f"Hybrid {name}: {func(test_data, hybrid_predictions)}")
 
     
-    ## ------------------------------------ Visualize Predict Result ------------------------------------ ##
-    # Plot predictions
-    plot_predictions(train_data, val_data, test_data, {"NLinear": nlinear_predictions, "Hybrid": hybrid_predictions})
+    # ## ------------------------------------ Visualize Predict Result ------------------------------------ ##
+    # # Plot predictions
+    # plot_predictions(train_data, val_data, test_data, {"NLinear": nlinear_predictions, "Hybrid": hybrid_predictions})
 
     
     # ------------------------------------ End of Process ------------------------------------

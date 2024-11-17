@@ -1,0 +1,22 @@
+# ignore all .class files
+*.class
+
+# exclude lib.class from "*.class", meaning all lib.class are still tracked
+!lib.class
+
+# ignore all json files
+*.json
+
+# ignore logs folder & log files
+logs/
+*.log
+*.txt
+
+# ignore all .pdf
+*.pdf
+
+# pyc
+*.pyc
+
+# checkpoint
+*checkpoint*
