@@ -72,8 +72,9 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -
     model = HybridModel(
         nlinear_model=nlinear_model,
         cnn_nlinear_model=cnn_nlinear_model,
-        input_dim=params["in_channels"],
-        hidden_dim=max(int(params["hidden_dim"]), 3),
+        num_heads=params["num_heads"],
+        window_size=params["window_size"],
+        forecast_size=params["forecast_size"],
     ).to(device)
     model.train_model(train_loader, val_loader, device)
 

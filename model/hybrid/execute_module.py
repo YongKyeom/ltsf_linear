@@ -2,6 +2,7 @@ import logging
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
@@ -10,17 +11,17 @@ from typing import Optional
 
 import torch
 import torch.nn as nn
-
+from torch.nn import MultiheadAttention
 
 class CNN_NLinear(nn.Module):
     def __init__(
         self,
-        window_size: int,
-        forecast_size: int,
-        conv_kernel_size: int,
-        conv_filters: int,
-        in_channels: int,
-        dropout_rate: float,
+        window_size: int = 96,
+        forecast_size: int = 96,
+        conv_kernel_size: int = 10,
+        conv_filters: int = 32,
+        in_channels: int = 1,
+        dropout_rate: float = 0.3,
         logger: logging.Logger = None,
     ) -> None:
         super(CNN_NLinear, self).__init__()
@@ -47,6 +48,7 @@ class CNN_NLinear(nn.Module):
         self.final_linear = nn.Linear(forecast_size, forecast_size)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x.float()
         # Save residual connection
         # residual = x
         seq_last = x[:, -1:, :].detach()
@@ -100,7 +102,7 @@ class CNN_NLinear(nn.Module):
             self.train()
             train_loss = 0.0
             for x, y in train_loader:
-                x, y = x.to(device), y.to(device)
+                x, y = x.float().to(device), y.float().to(device)
                 optimizer.zero_grad()
                 y_pred = self(x)
                 loss = criterion(y_pred, y)
@@ -154,16 +156,6 @@ class CNN_NLinear(nn.Module):
                 # Save the model in case of no validation data
                 torch.save(self.state_dict(), "best_model_no_val__cnn_nlinear.pth")
 
-    # def predict(self, data_loader: DataLoader, device: torch.device) -> torch.Tensor:
-    #     self.eval()
-    #     predictions = []
-    #     with torch.no_grad():
-    #         for x, _ in data_loader:  # Only retrieve x, ignore y
-    #             x = x.to(device)
-    #             predictions.append(self(x).cpu())
-
-    #     return torch.cat(predictions)
-
     def predict(self, data_loader: DataLoader, device: torch.device) -> np.array:
         """
         Generate predictions using the CNN_NLinear model.
@@ -193,8 +185,9 @@ class HybridModel(nn.Module):
         self,
         nlinear_model: "NLinear",
         cnn_nlinear_model: "CNN_NLinear",
-        input_dim: int,
-        hidden_dim: int,
+        num_heads: int = 4,
+        window_size: int = 336,
+        forecast_size: int = 96,
         logger: logging.Logger = None,
     ) -> None:
         super(HybridModel, self).__init__()
@@ -202,42 +195,48 @@ class HybridModel(nn.Module):
         self.nlinear_model = nlinear_model
         self.cnn_nlinear_model = cnn_nlinear_model
 
-        # Attention layers
-        self.query = nn.Linear(input_dim, hidden_dim)
-        self.key = nn.Linear(input_dim, hidden_dim)
-        self.value = nn.Linear(hidden_dim, hidden_dim)
+        self.num_heads = num_heads
+        self.embed_dim = int(window_size // num_heads)
 
-        self.softmax = nn.Softmax(dim=-1)
-        self.fc_out = nn.Linear(hidden_dim, 1)  # Combine NLinear and CNN outputs
+        # Define the multi-head attention module
+        self.attention = nn.MultiheadAttention(self.embed_dim * 2, self.num_heads, batch_first=True)
+
+        # Projection layers for model outputs
+        self.nlinear_proj = nn.Linear(1, self.embed_dim)
+        self.cnn_proj = nn.Linear(1, self.embed_dim)
+
+        # Output projection to forecast size
+        self.out_proj = nn.Linear(self.embed_dim * 2, 1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # Compute Query, Key, Value from input data
-        Q = self.query(x)
-        K = self.key(x)
-        V = self.value(K)
+        x = x.float()
+        batch_size, window_size, _ = x.size()
 
-        # Attention mechanism
-        attention_weights = self.softmax(torch.matmul(Q, K.transpose(-2, -1)) / (K.size(-1) ** 0.5))
-        attention_output = torch.matmul(attention_weights, V)
-
-        # Apply individual models
+        # Model output
         nlinear_output = self.nlinear_model(x)
         cnn_nlinear_output = self.cnn_nlinear_model(x)
+        
+        # Project model outputs to embed_dim (embedding layer)
+        nlinear_embed = self.nlinear_proj(nlinear_output)
+        cnn_embed = self.cnn_proj(cnn_nlinear_output)
 
-        # Combine model outputs using attention results
-        combined_output = torch.stack((nlinear_output, cnn_nlinear_output), dim=-1)
+        # Combine embeddings: [batch_size, forecast_size, embed_dim, 2]
+        model_outputs = torch.stack([nlinear_embed, cnn_embed], dim=-1)
 
-        # Ensure attention_output shape matches combined_output for broadcasting
-        attention_output = self.fc_out(attention_output).squeeze(-1)
-        model_importance = self.softmax(attention_output).unsqueeze(-1).unsqueeze(-1)
+        # Flatten the last dimension (2nd dimension for the two models)
+        model_outputs = model_outputs.view(batch_size, -1, model_outputs.size(2) * model_outputs.size(3))
 
-        # Adjust model_importance to match combined_output shape
-        model_importance = model_importance.expand_as(combined_output)
+        # Permute model_outputs to fit the shape required by MultiheadAttention: [forecast_size, batch_size, embed_dim * 2]
+        model_outputs = model_outputs.permute(1, 0, 2)
 
-        # Weighted sum of NLinear and CNN outputs
-        output = (combined_output * model_importance).sum(dim=-1)
+        # Self-Attention mechanism
+        attn_output, attn_weights = self.attention(model_outputs, model_outputs, model_outputs)
 
-        return output
+        # Project back to forecast size (to predict the final output)
+        attn_output = attn_output.permute(1, 0, 2)
+        attn_output = self.out_proj(attn_output)
+
+        return attn_output
 
     def train_model(
         self,
@@ -259,7 +258,7 @@ class HybridModel(nn.Module):
             self.train()
             train_loss = 0.0
             for x, y in train_loader:
-                x, y = x.to(device), y.to(device)
+                x, y = x.float().to(device), y.float().to(device)
                 optimizer.zero_grad()
                 y_pred = self(x)
                 loss = criterion(y_pred, y)
@@ -278,7 +277,7 @@ class HybridModel(nn.Module):
                 val_loss = 0.0
                 with torch.no_grad():
                     for x, y in val_loader:
-                        x, y = x.to(device), y.to(device)
+                        x, y = x.float().to(device), y.float().to(device)
                         y_pred = self(x)
                         val_loss += criterion(y_pred, y).item()
                 avg_val_loss = val_loss / len(val_loader)
@@ -311,26 +310,6 @@ class HybridModel(nn.Module):
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
                 # Save final model
                 torch.save(self.state_dict(), "best_model_no_val__hybrid.pth")
-
-    # def predict(self, data_loader: DataLoader, device: torch.device) -> torch.Tensor:
-    #     self.eval()
-    #     predictions = []
-    #     attention_weights_debug = []
-
-    #     with torch.no_grad():
-    #         for x, _ in data_loader:
-    #             x = x.to(device)
-    #             output = self(x)
-
-    #             if hasattr(self, "attention_weights"):
-    #                 attention_weights_debug.append(self.attention_weights.cpu())
-
-    #             predictions.append(output.cpu())
-
-    #     if self.logger is not None and attention_weights_debug:
-    #         self.logger.debug(f"Attention Weights: {torch.cat(attention_weights_debug)}")
-
-    #     return torch.cat(predictions)
 
     def predict(self, data_loader: DataLoader, device: torch.device) -> np.array:
         """

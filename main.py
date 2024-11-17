@@ -11,7 +11,8 @@ from common.metrics import compute_mae, compute_rmse, compute_mdape, compute_cor
 from common.visualize import plot_predictions
 from common.logger import Logger
 from config.config import CORE_CNT, DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETER, HYBRID_PARAMETER
-from data.data_loader_new import load_data, split_data, create_dataloaders
+from data.data_loader import load_data
+from data.data_factor import data_provider, create_dataloaders
 from model.nlinear.execute_module import NLinearModel
 from model.hybrid.execute_module import HybridModel, CNN_NLinear
 from model.hyperoptimize import optimize_hybrid
@@ -46,32 +47,39 @@ if __name__ == "__main__":
     
     ## ------------------------------------ Load Data ------------------------------------ ##
     # Load and split data
-    raw_data = load_data("ETTh1", date_col_nm=DATE_COL_NM, target_col_nm=TARGET_COL_NM)
-    train_data, val_data, test_data = split_data(raw_data)
-    logger.info(f"Train: {str(train_data.index.min())[:10]} ~ {str(train_data.index.max())[:10]}")
-    logger.info(f"Validation: {str(val_data.index.min())[:10]} ~ {str(val_data.index.max())[:10]}")
-    logger.info(f"Test: {str(test_data.index.min())[:10]} ~ {str(test_data.index.max())[:10]}")
-
-    # Make data_loader for Train/Valid/Test
-    train_loader, val_loader, test_loader = create_dataloaders(
-        train_data=train_data,
-        val_data=val_data,
-        test_data=test_data,
-        window_size=NLINEAR_PARAMETER["window_size"],
-        forecast_size=NLINEAR_PARAMETER["forecast_size"],
-        batch_size=NLINEAR_PARAMETER["batch_size"],
+    raw_data = load_data("./dataset/ETTh1.csv", date_col_nm=DATE_COL_NM, target_col_nm=TARGET_COL_NM)
+    (
+        (train_set, train_loader),
+        (val_set, val_loader),
+        (test_set, test_loader),
+        (pred_set, pred_loader)
+    ) =  create_dataloaders(
+        embed = 'timeF', 
+        train_only = False,
+        batch_size = NLINEAR_PARAMETER['batch_size'],
+        freq = 'h',
+        data_type_list = ['train', 'val', 'test', 'pred'],
+        seq_len = NLINEAR_PARAMETER['window_size'],
+        label_len = NLINEAR_PARAMETER['forecast_size'],
+        pred_len = NLINEAR_PARAMETER['forecast_size'],
+        features = 'S',
+        target = 'OT',
+        root_path = './dataset',
+        data_path = 'ETTh1.csv',
     )
 
     
     ## ------------------------------------ NLinear Training ------------------------------------ ##
+    # Set torch
+    device = torch.device("cpu")
+    
     # Hyper paremter of NLinear
+    logger.info("Training NLinear model")
     nlinear_params = NLINEAR_PARAMETER["default_space"]
     for key, values in NLINEAR_PARAMETER.items():
         if key not in ["opt_hyperpara", "space", "default_space"]:
             nlinear_params[key] = values
-
     # Initialize NLinear model
-    device = torch.device("cpu")
     nlinear_model = NLinearModel(
         window_size=nlinear_params["window_size"],
         forecast_size=nlinear_params["forecast_size"],
@@ -79,14 +87,13 @@ if __name__ == "__main__":
         feature_size=nlinear_params["feature_size"],
         logger=logger,
     ).to(device)
-
     # Train NLinear model
     nlinear_model.train_model(train_loader, val_loader, device)
 
     
-    ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
+    ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
-    logger.info("Starting Hybrid model optimization.")
+    logger.info("Training CNN_NLinear model")
     if HYBRID_PARAMETER["opt_hyperpara"] is True:
         hybrid_params = HYBRID_PARAMETER["space"]
     else:
@@ -113,12 +120,16 @@ if __name__ == "__main__":
     # Train CNN_NLinear model
     cnn_nlinear_model.train_model(train_loader, val_loader, device)
 
+
+    ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
+    logger.info("Training Hybrid(NLinear + CNN_NLinear) model")
     ## Initialize Hybrid model
     hybrid_model = HybridModel(
         nlinear_model=nlinear_model,
         cnn_nlinear_model=cnn_nlinear_model,
-        input_dim=hybrid_best_params["in_channels"],
-        hidden_dim=hybrid_best_params["hidden_dim"],
+        num_heads=hybrid_best_params["num_heads"],
+        window_size=hybrid_best_params["window_size"],
+        forecast_size=hybrid_best_params["forecast_size"],
         logger=logger,
     ).to(device)
     # Train Hybrid model

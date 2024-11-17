@@ -11,6 +11,46 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
+def load_data(file_path: str = "ETTh1", date_col_nm: str = "date", target_col_nm: str = "OT") -> pd.DataFrame:
+    """
+    시계열 모델 학습 및 검증을 위한 Dataset을 Load하는 함수
+    file_path Dataset 이름을 입력을 받은 경우, 해당 Dataset을 리턴함
+
+    Args:
+        file_path (str): Raw data 경로 혹은 Dataset 이름
+        date_col_nm (str): 날짜 컬럼 이름. 해당 컬럼이 Dataset에 포함되는 경우, 날짜 컬럼을 Index로 변환함
+        target_col_nm (str): Y컬럼 이름
+
+    Returns:
+        pd.DataFrame: Time series dataset
+    """
+    ## Load dataset
+    if file_path == "ETTh1":
+        try:
+            ## Read from local csv
+            raw_df = pd.read_csv('.data/ETTh1.csv')
+        except:
+            ## Load from darts.datasets
+            raw_df = ETTh1Dataset().load().pd_dataframe()
+            ## Add Date column
+            raw_df.insert(0, date_col_nm, raw_df.index)
+            ## To save to local
+            save_path = './dataset'
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+            raw_df.to_csv(f'{save_path}/ETTh1.csv', index = False)
+    else:
+        raw_df = pd.read_csv(file_path)
+
+    ## 날짜컬럼 Index 지정
+    if date_col_nm in raw_df.columns:
+        raw_df.set_index(keys=date_col_nm, inplace = True)
+
+    print(f"Load dataset(cnt: {raw_df.shape[0]})")
+
+    return raw_df[[target_col_nm]]
+
+
 class Dataset_ETT_hour(Dataset):
     def __init__(
         self,
@@ -101,15 +141,16 @@ class Dataset_ETT_hour(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end
+        r_end = r_begin + self.pred_len
 
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
         seq_x_mark = self.data_stamp[s_begin:s_end]
         seq_y_mark = self.data_stamp[r_begin:r_end]
 
-        return seq_x, seq_y, seq_x_mark, seq_y_mark
+        # return seq_x, seq_y, seq_x_mark, seq_y_mark
+        return seq_x, seq_y
 
     def __len__(self):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
@@ -189,8 +230,6 @@ class Dataset_Custom(Dataset):
         if self.scale:
             train_data = df_data[border1s[0] : border2s[0]]
             self.scaler.fit(train_data.values)
-            # print(self.scaler.mean_)
-            # exit()
             data = self.scaler.transform(df_data.values)
         else:
             data = df_data.values
@@ -216,15 +255,16 @@ class Dataset_Custom(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end
+        r_end = r_begin + self.pred_len
 
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
         seq_x_mark = self.data_stamp[s_begin:s_end]
         seq_y_mark = self.data_stamp[r_begin:r_end]
 
-        return seq_x, seq_y, seq_x_mark, seq_y_mark
+        # return seq_x, seq_y, seq_x_mark, seq_y_mark
+        return seq_x, seq_y
 
     def __len__(self):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
@@ -337,8 +377,8 @@ class Dataset_Pred(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end
+        r_end = r_begin + self.pred_len
 
         seq_x = self.data_x[s_begin:s_end]
         if self.inverse:
@@ -348,7 +388,8 @@ class Dataset_Pred(Dataset):
         seq_x_mark = self.data_stamp[s_begin:s_end]
         seq_y_mark = self.data_stamp[r_begin:r_end]
 
-        return seq_x, seq_y, seq_x_mark, seq_y_mark
+        # return seq_x, seq_y, seq_x_mark, seq_y_mark
+        return seq_x, seq_y
 
     def __len__(self):
         return len(self.data_x) - self.seq_len + 1

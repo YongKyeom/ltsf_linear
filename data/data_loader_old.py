@@ -1,5 +1,6 @@
 import pandas as pd
 import torch
+import os
 
 from darts.datasets import ETTh1Dataset
 from sklearn.model_selection import train_test_split
@@ -7,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 from typing import Tuple
 
 
-def load_data(file_path: str = "ETTh1", date_col_nm: str = "date_time", target_col_nm: str = "OT") -> pd.DataFrame:
+def load_data(file_path: str = "ETTh1", date_col_nm: str = "date", target_col_nm: str = "OT") -> pd.DataFrame:
     """
     시계열 모델 학습 및 검증을 위한 Dataset을 Load하는 함수
     file_path Dataset 이름을 입력을 받은 경우, 해당 Dataset을 리턴함
@@ -28,17 +29,19 @@ def load_data(file_path: str = "ETTh1", date_col_nm: str = "date_time", target_c
         except:
             ## Load from darts.datasets
             raw_df = ETTh1Dataset().load().pd_dataframe()
-            raw_df['date_col_nm'] = raw_df.index
-            raw_df.reset_index(drop = True, inplace = True)
-            
+            ## Add Date column
+            raw_df.insert(0, date_col_nm, raw_df.index)
             ## To save to local
-            raw_df.to_csv('.data/ETTh1.csv')
+            save_path = './dataset'
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+            raw_df.to_csv(f'{save_path}/ETTh1.csv', index = False)
     else:
         raw_df = pd.read_csv(file_path)
 
     ## 날짜컬럼 Index 지정
     if date_col_nm in raw_df.columns:
-        raw_df.set_index(keys=date_col_nm)
+        raw_df.set_index(keys=date_col_nm, inplace = True)
 
     print(f"Load dataset(cnt: {raw_df.shape[0]})")
 
@@ -86,6 +89,9 @@ class TimeSeriesDataset(Dataset):
         x = self.data[idx : idx + self.window_size]
         y = self.data[idx + self.window_size : idx + self.window_size + self.forecast_size]
         return torch.tensor(x, dtype=torch.float32), torch.tensor(y, dtype=torch.float32)
+
+    def inverse_transform(self, data, scaler):
+        return scaler.inverse_transform(data)
 
 
 def create_dataloaders(

@@ -10,10 +10,10 @@ from typing import Optional
 class NLinearModel(nn.Module):
     def __init__(
         self,
-        window_size: int,
-        forecast_size: int,
-        individual: bool,
-        feature_size: int = 10,
+        window_size: int = 96,
+        forecast_size: int = 96,
+        individual: bool = False,
+        feature_size: int = 7,
         logger: logging.Logger = None,
     ):
         """
@@ -47,6 +47,7 @@ class NLinearModel(nn.Module):
         Returns:
             torch.Tensor: Output tensor of shape (batch_size, forecast_size, feature_size).
         """
+        x = x.float()
         seq_last = x[:, -1:, :].detach()
         x = x - seq_last  # Distribution shift removal
         if self.individual:
@@ -83,8 +84,8 @@ class NLinearModel(nn.Module):
         for epoch in range(epochs):
             self.train()
             train_loss = 0.0
-            for x, y in train_loader:
-                x, y = x.to(device), y.to(device)
+            for i, (x, y) in enumerate(train_loader):
+                x, y = x.float().to(device), y.float().to(device)
                 optimizer.zero_grad()
                 y_pred = self(x)
                 loss = criterion(y_pred, y)
