@@ -22,7 +22,7 @@ The dataset used in this project is tailored for long-term time series forecasti
 ltsf_linear/  
 ├── common/  
 │   ├── __init__.py  
-│   ├── exception.py 
+│   ├── exception.py  
 │   ├── logger.py  
 │   ├── metrics.py  
 │   └── visualize.py  
@@ -32,7 +32,7 @@ ltsf_linear/
 ├── data/  
 │   ├── __init__.py  
 │   ├── data_factor.py  
-│   ├── data_loader.py 
+│   ├── data_loader.py  
 │   └── data_loader_old.py  
 ├── dataset/  
 ├── main.py  
