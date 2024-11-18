@@ -30,11 +30,11 @@ HYBRID_PARAMETER = {
     "space": {
         "conv_kernel_size": hp.uniform("conv_kernel_size", 5, 50),
         "conv_filters": hp.uniform("conv_filters", 2, 64),
-        "dropout_rate": hp.uniform("dropout_rate", 0, 0.5),
+        "dropout_rate": hp.uniform("dropout_rate", 0, 0.3),
         "num_heads": hp.choice("num_heads", [4, 8, 16, 32]),
     },
     "default_space": {
-        "conv_kernel_size": 28,
+        "conv_kernel_size": 21,
         "conv_filters": 32, # 128,
         "dropout_rate": 0.3,
         "num_heads": 4,

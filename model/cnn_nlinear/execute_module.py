@@ -9,40 +9,42 @@ from torch.utils.data import DataLoader
 from typing import Optional
 
 
-class HybridModel(nn.Module):
+class CNN_NLinear(nn.Module):
     def __init__(
         self,
-        nlinear_model: "NLinear",
-        cnn_nlinear_model: "CNN_NLinear",
-        num_heads: int = 4,
-        window_size: int = 336,
+        window_size: int = 96,
         forecast_size: int = 96,
+        conv_kernel_size: int = 10,
+        conv_filters: int = 32,
+        in_channels: int = 1,
         dropout_rate: float = 0.1,
         logger: logging.Logger = None,
     ) -> None:
-        super(HybridModel, self).__init__()
-        
+        super(CNN_NLinear, self).__init__()
         self.logger = logger
-        self.num_heads = num_heads
-        self.window_size = window_size
         self.forecast_size = forecast_size
-        self.embed_dim = window_size
 
-        # Multihead Attention
-        self.attention = nn.MultiheadAttention(self.embed_dim, self.num_heads, batch_first=True)
+        # Set padding for convolution
+        padding = (conv_kernel_size - 1) // 2
 
-        # Output Layer
-        self.out_proj = nn.Linear(self.embed_dim, 1)
+        # Single convolution layer with BatchNorm and ReLU
+        self.conv1 = nn.Conv1d(
+            in_channels=in_channels, out_channels=conv_filters, kernel_size=conv_kernel_size, padding=padding
+        )
+        self.bn1 = nn.BatchNorm1d(conv_filters)
 
-        # Residual weight
-        self.residual_weight = nn.Parameter(torch.Tensor(1))
+        # Adaptive pooling layer to condense information
+        self.pool = nn.AdaptiveAvgPool1d(window_size)
+        # Dropout layer to prevent overfitting
+        self.dropout = nn.Dropout(dropout_rate)
+        # Linear layer to map the output to the forecast size
+        self.linear = nn.Linear(window_size * conv_filters, forecast_size)
+
+        # Final linear layer to reduce output to single channel for each forecast step
+        self.final_linear = nn.Linear(forecast_size, forecast_size)
 
         # Weight initialization
         self.apply(self._init_weights)
-
-        # NLinear, CNN_NLinear model
-        self.nlinear_model = nlinear_model
-        self.cnn_nlinear_model = cnn_nlinear_model
 
     def _init_weights(self, m):
         """
@@ -61,34 +63,36 @@ class HybridModel(nn.Module):
                 elif 'in_proj_bias' in name or 'out_proj.bias' in name:
                     nn.init.zeros_(param)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = x.float()
-        batch_size, window_size, _ = x.size()
+        
+        # Distribution shift removal
+        seq_last = x[:, -1:, :].detach()
+        x = x - seq_last
 
-        # x를 embedding 차원으로 확장
-        x_embed = x.unsqueeze(2).expand(-1, -1, self.forecast_size, -1)
-        x_embed = x_embed.permute(0, 2, 1, 3)
+        # Permute to [batch, feature_size, window_size]
+        x = x.permute(0, 2, 1)
 
-        # Output of NLinear, CNN_NLinear
-        nlinear_output = self.nlinear_model(x)
-        cnn_nlinear_output = self.cnn_nlinear_model(x)
+        # First and only convolution block
+        x = torch.relu(self.bn1(self.conv1(x)))
+        x = self.dropout(x)
 
-        # Calculate Attention
-        combined_inputs = x_embed.view(batch_size, self.forecast_size, window_size)
-        combined_inputs = combined_inputs.permute(1, 0, 2)
-        attn_output, attn_weights = self.attention(combined_inputs, combined_inputs, combined_inputs)
+        # Pooling layer to condense information
+        x = self.pool(x)
 
-        # w <- Attention average
-        attn_output_mean = attn_output.mean(dim=2)
-        w = torch.sigmoid(attn_output_mean).permute(1, 0).unsqueeze(-1) 
+        # Flatten the convolutional output
+        x = x.view(x.size(0), -1)
 
-        # Output = w * NLinear + (1-w) * CNN_NLinear
-        weighted_sum = w * nlinear_output + (1 - w) * cnn_nlinear_output
+        # Linear transformation to map to forecast size
+        x = self.linear(x).view(x.size(0), -1)
 
-        # Residual Connection
-        final_output = weighted_sum + self.residual_weight * (nlinear_output + cnn_nlinear_output)
+        # Final linear layer to ensure output has correct dimensions
+        x = self.final_linear(x).view(x.size(0), self.forecast_size, 1)
 
-        return final_output
+        # Adding back the removed shift
+        x = x + seq_last
+        
+        return x
 
     def train_model(
         self,
@@ -117,7 +121,7 @@ class HybridModel(nn.Module):
                 loss.backward()
 
                 # Gradient clipping to stabilize training
-                torch.nn.utils.clip_grad_norm_(self.parameters(), max_norm=2.0)
+                torch.nn.utils.clip_grad_norm_(self.parameters(), max_norm=5.0)
                 optimizer.step()
                 train_loss += loss.item()
 
@@ -129,17 +133,18 @@ class HybridModel(nn.Module):
                 val_loss = 0.0
                 with torch.no_grad():
                     for x, y in val_loader:
-                        x, y = x.float().to(device), y.float().to(device)
+                        x, y = x.to(device), y.to(device)
                         y_pred = self(x)
                         val_loss += criterion(y_pred, y).item()
                 avg_val_loss = val_loss / len(val_loader)
 
+                # Logging
                 if self.logger is not None:
                     self.logger.info(
                         f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}"
                     )
 
-                # Learning rate decay
+                # Apply learning rate decay
                 scheduler.step(avg_val_loss)
 
                 # Early stopping
@@ -148,8 +153,7 @@ class HybridModel(nn.Module):
                     patience_counter = 0
                     if self.logger is not None:
                         self.logger.info("Save best model")
-                    # Save best model
-                    torch.save(self.state_dict(), "best_model__hybrid.pth")
+                    torch.save(self.state_dict(), "best_model__cnn_nlinear.pth")
                 else:
                     patience_counter += 1
 
@@ -160,12 +164,13 @@ class HybridModel(nn.Module):
             else:
                 if self.logger is not None:
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
-                # Save final model
-                torch.save(self.state_dict(), "best_model_no_val__hybrid.pth")
+                    self.logger.info(f"Save CNN_NLinear model")
+                # Save the model in case of no validation data
+                torch.save(self.state_dict(), "best_model_no_val__cnn_nlinear.pth")
 
     def predict(self, data_loader: DataLoader, device: torch.device) -> np.array:
         """
-        Generate predictions using the Hybrid model.
+        Generate predictions using the CNN_NLinear model.
 
         Args:
             data_loader (DataLoader): DataLoader for input data.

@@ -1,6 +1,7 @@
 from hyperopt import fmin, tpe, Trials, STATUS_OK, hp
 from model.nlinear.execute_module import NLinearModel
-from model.hybrid.execute_module import HybridModel, CNN_NLinear
+from model.cnn_nlinear.execute_module import CNN_NLinear
+from model.hybrid.execute_module import HybridModel
 from typing import Dict, Any
 import torch
 from common.metrics import compute_rmse
@@ -75,6 +76,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -
         num_heads=params["num_heads"],
         window_size=params["window_size"],
         forecast_size=params["forecast_size"],
+        dropout_rate=params["dropout_rate"],
     ).to(device)
     model.train_model(train_loader, val_loader, device)
 
