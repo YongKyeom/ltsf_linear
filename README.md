@@ -4,6 +4,7 @@
 This repository contains the final project for the Advanced Machine Learning Theory course under the Department of Data Science, Sungkyunkwan University.    
 The project implements and extends the findings from the paper "Are Transformers Effective for Time Series Forecasting?".   
 Link: https://arxiv.org/pdf/2205.13504   
+Github(Official): https://github.com/cure-lab/LTSF-Linear  
    
 ### Objectives   
 1. **Paper Implementation**: Implement the models and methods presented in the paper "Are Transformers Effective for Time Series Forecasting?".   
@@ -49,6 +50,7 @@ ltsf_linear/
 │       ├── __init__.py  
 │       └── execute_module.py  
 └── utils/  
+    ├── __init__.py  
     ├── metrics.py  
     ├── timefeatures.py  
     └── tools.py    
