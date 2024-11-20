@@ -1,5 +1,6 @@
 import logging
 import numpy as np
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -65,6 +66,19 @@ class CNN_NLinear(nn.Module):
                     nn.init.xavier_uniform_(param)
                 elif 'in_proj_bias' in name or 'out_proj.bias' in name:
                     nn.init.zeros_(param)
+    
+    def positional_encoding(self, length, d_model):
+        """
+        Generate positional encoding
+        """
+        position = torch.arange(0, length).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2) * -(math.log(10000.0) / d_model))
+        
+        pe = torch.zeros(length, d_model)
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+        
+        return pe.unsqueeze(0) 
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = x.float()
@@ -76,12 +90,14 @@ class CNN_NLinear(nn.Module):
         ## Input data
         x_input = x
 
+        # Positional enconding for Conv1D
+        x = x + self.positional_encoding(x.size(1), x.size(2)).to(x.device)
+
         # Permute to [batch, feature_size, window_size]
         x = x.permute(0, 2, 1)
 
         # First and only convolution block
-        x = torch.relu(self.bn1(self.conv1(x)))
-        x = self.dropout1(x)
+        x = self.dropout1(torch.relu(self.bn1(self.conv1(x))))
 
         # Pooling layer to condense information
         x = self.pool(x)
@@ -90,8 +106,7 @@ class CNN_NLinear(nn.Module):
         x = x.permute(0, 2, 1)
 
         # Linear formation for conv filters
-        x = self.bn2(self.linear(x))
-        x = self.dropout2(x)
+        x = self.dropout2(self.bn2(self.linear(x)))
 
         # Residual connection
         x = x + x_input
