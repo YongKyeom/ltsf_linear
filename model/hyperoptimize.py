@@ -31,7 +31,7 @@ def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, device) 
     return {"loss": val_loss, "status": STATUS_OK}
 
 
-def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader) -> Dict[str, Any]:
+def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, device) -> Dict[str, Any]:
     """
     NLinear 모델 Hyper optimization 수행함수
 
