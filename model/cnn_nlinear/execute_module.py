@@ -31,17 +31,20 @@ class CNN_NLinear(nn.Module):
         self.conv1 = nn.Conv1d(
             in_channels=in_channels, out_channels=conv_filters, kernel_size=conv_kernel_size, padding=padding
         )
+        # To prevent overfitting, batch normalize, dropout
         self.bn1 = nn.BatchNorm1d(conv_filters)
-
+        self.dropout1 = nn.Dropout(dropout_rate)
         # Adaptive pooling layer to condense information
         self.pool = nn.AdaptiveAvgPool1d(window_size)
-        # Dropout layer to prevent overfitting
-        self.dropout = nn.Dropout(dropout_rate)
-        # Linear layer to map the output to the forecast size
-        self.linear = nn.Linear(window_size * conv_filters, forecast_size)
+
+        # Linear layer to map convolution filters to raw input dim
+        self.linear = nn.Linear(conv_filters, in_channels)
+        # To prevent overfitting, batch normalize, dropout
+        self.bn2 = nn.BatchNorm1d(window_size)
+        self.dropout2 = nn.Dropout(dropout_rate)
 
         # Final linear layer to reduce output to single channel for each forecast step
-        self.final_linear = nn.Linear(forecast_size, forecast_size)
+        self.final_linear = nn.Linear(window_size, forecast_size)
 
         # Weight initialization
         self.apply(self._init_weights)
@@ -70,24 +73,31 @@ class CNN_NLinear(nn.Module):
         seq_last = x[:, -1:, :].detach()
         x = x - seq_last
 
+        ## Input data
+        x_input = x
+
         # Permute to [batch, feature_size, window_size]
         x = x.permute(0, 2, 1)
 
         # First and only convolution block
         x = torch.relu(self.bn1(self.conv1(x)))
-        x = self.dropout(x)
+        x = self.dropout1(x)
 
         # Pooling layer to condense information
         x = self.pool(x)
 
-        # Flatten the convolutional output
-        x = x.view(x.size(0), -1)
+        # Permute to [batch, window_size, feature_size]
+        x = x.permute(0, 2, 1)
 
-        # Linear transformation to map to forecast size
-        x = self.linear(x).view(x.size(0), -1)
+        # Linear formation for conv filters
+        x = self.bn2(self.linear(x))
+        x = self.dropout2(x)
+
+        # Residual connection
+        x = x + x_input
 
         # Final linear layer to ensure output has correct dimensions
-        x = self.final_linear(x).view(x.size(0), self.forecast_size, 1)
+        x = self.final_linear(x.permute(0, 2, 1)).permute(0, 2, 1)
 
         # Adding back the removed shift
         x = x + seq_last
