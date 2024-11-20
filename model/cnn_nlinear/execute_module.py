@@ -90,7 +90,7 @@ class CNN_NLinear(nn.Module):
         x = x.permute(0, 2, 1)
 
         # Linear formation for conv filters
-        x = self.bn2(self.linear(x))
+        x = torch.relu(self.bn2(self.linear(x)))
         x = self.dropout2(x)
 
         # Residual connection
