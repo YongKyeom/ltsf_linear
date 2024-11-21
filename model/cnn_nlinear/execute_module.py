@@ -55,12 +55,21 @@ class CNN_NLinear(nn.Module):
         Initialize weights for all layers
         """
         if isinstance(m, nn.Linear):
-            # Xavier 초기화
+            # Xavier Initialization for Linear layers
             nn.init.xavier_uniform_(m.weight)
             if m.bias is not None:
                 nn.init.zeros_(m.bias)
+        elif isinstance(m, nn.Conv1d):
+            # Kaiming (He) Initialization for Conv1d layers
+            nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            if m.bias is not None:
+                nn.init.zeros_(m.bias)
+        elif isinstance(m, nn.BatchNorm1d):
+            # BatchNorm Initialization: weight to 1, bias to 0
+            nn.init.ones_(m.weight)
+            nn.init.zeros_(m.bias)
         elif isinstance(m, nn.MultiheadAttention):
-            # MultiheadAttention 초기화
+            # MultiheadAttention Initialization
             for name, param in m.named_parameters():
                 if 'in_proj_weight' in name or 'out_proj.weight' in name:
                     nn.init.xavier_uniform_(param)
