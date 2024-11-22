@@ -103,6 +103,7 @@ class HybridModel(nn.Module):
         self,
         train_loader: DataLoader,
         val_loader: Optional[DataLoader],
+        test_loader: Optional[DataLoader],
         device: torch.device,
         epochs: int = 50,
         lr: float = 0.001,
@@ -132,6 +133,16 @@ class HybridModel(nn.Module):
 
             avg_train_loss = train_loss / len(train_loader)
 
+            if test_loader:
+                self.eval()
+                test_loss = 0.0
+                with torch.no_grad():
+                    for x, y in test_loader:
+                        x, y = x.float().to(device), y.float().to(device)
+                        y_pred = self(x)
+                        test_loss += criterion(y_pred, y).item()
+                avg_test_loss = test_loss / len(test_loader)
+
             # Validation loss calculation
             if val_loader:
                 self.eval()
@@ -145,7 +156,7 @@ class HybridModel(nn.Module):
 
                 if self.logger is not None:
                     self.logger.info(
-                        f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}"
+                        f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Test Loss: {avg_test_loss:.4f}"
                     )
 
                 # Learning rate decay

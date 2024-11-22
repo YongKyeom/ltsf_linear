@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
 
@@ -64,9 +65,11 @@ class NLinearModel(nn.Module):
         self,
         train_loader: DataLoader,
         val_loader: Optional[DataLoader],
+        test_loader: Optional[DataLoader],
         device: torch.device,
         epochs: int = 50,
         lr: float = 0.001,
+        patience: int = 10,
     ):
         """
         Train the NLinear model.
@@ -79,7 +82,11 @@ class NLinearModel(nn.Module):
             lr (float): Learning rate.
         """
         criterion = nn.MSELoss()
-        optimizer = optim.Adam(self.parameters(), lr=lr)
+        optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=1e-5)
+        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=patience // 2, verbose=True)
+
+        best_val_loss = float("inf")
+        patience_counter = 0
 
         for epoch in range(epochs):
             self.train()
@@ -95,6 +102,16 @@ class NLinearModel(nn.Module):
 
             avg_train_loss = train_loss / len(train_loader)
 
+            if test_loader:
+                self.eval()
+                test_loss = 0.0
+                with torch.no_grad():
+                    for x, y in test_loader:
+                        x, y = x.float().to(device), y.float().to(device)
+                        y_pred = self(x)
+                        test_loss += criterion(y_pred, y).item()
+                avg_test_loss = test_loss / len(test_loader)
+
             # Validation loss calculation
             if val_loader:
                 self.eval()
@@ -107,8 +124,26 @@ class NLinearModel(nn.Module):
                 avg_val_loss = val_loss / len(val_loader)
                 if self.logger is not None:
                     self.logger.info(
-                        f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}"
+                        f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Test Loss: {avg_test_loss:.4f}"
                     )
+                
+                # Apply learning rate decay
+                scheduler.step(avg_val_loss)
+
+                # Early stopping
+                if avg_val_loss < best_val_loss:
+                    best_val_loss = avg_val_loss
+                    patience_counter = 0
+                    if self.logger is not None:
+                        self.logger.info("Save best model")
+                    torch.save(self.state_dict(), "best_model__nlinear.pth")
+                else:
+                    patience_counter += 1
+
+                if patience_counter >= patience:
+                    if self.logger is not None:
+                        self.logger.info("Early stopping triggered.")
+                    break
             else:
                 if self.logger is not None:
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
