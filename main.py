@@ -89,7 +89,7 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train NLinear model
-    nlinear_model.train_model(train_loader, val_loader, device)
+    nlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
 
     
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train CNN_NLinear model
-    cnn_nlinear_model.train_model(train_loader, val_loader, device)
+    cnn_nlinear_model.train_model(train_loader, val_loader, test_loader, device, hybrid_best_params['epochs'], hybrid_best_params['learning_rate'])
 
 
     ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train Hybrid model
-    hybrid_model.train_model(train_loader, val_loader, device)
+    hybrid_model.train_model(train_loader, val_loader, test_loader, device, hybrid_best_params['epochs'], hybrid_best_params['learning_rate'])
 
     
     ## ------------------------------------ Predict for test set ------------------------------------ ##
