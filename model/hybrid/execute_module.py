@@ -209,7 +209,7 @@ class HybridModel(nn.Module):
 
         return prediction_result
     
-    def final_predict(self, pred_data, pred_loader, device: torch.device):
+    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger):
         
         preds = []
         trues = []
@@ -229,7 +229,7 @@ class HybridModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        print('mse:{}, mae:{}'.format(mse, mae))
+        logger.info(f'[Hybrid model Score] MSE:{mse}, MAE:{mae}, MAPE: {mape}')
         
         pred_result = pd.DataFrame(
             {
@@ -237,6 +237,6 @@ class HybridModel(nn.Module):
                 'pred': [x[0] for x in np.concatenate(preds).tolist()]
             }
         )
-        pred_result.insert(0, 'model_name', 'cnn_nlinear')
+        pred_result.insert(0, 'model_name', 'hybrid')
 
         return pred_result

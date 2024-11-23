@@ -146,9 +146,9 @@ if __name__ == "__main__":
 
     # Evaluate both models
     logger.info("Evaluating models.")
-    nlinear_pred_result = nlinear_model.final_predict(test_set, test_loader, device)
-    cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device)
-    hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device)
+    nlinear_pred_result = nlinear_model.final_predict(test_set, test_loader, device, logger)
+    cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device, logger)
+    hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device, logger)
 
     # for name, func in metrics.items():
     #     logger.info(f"NLinear {name}: {func(test_data, nlinear_predictions)}")

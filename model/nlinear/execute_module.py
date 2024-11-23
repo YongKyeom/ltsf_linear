@@ -177,7 +177,7 @@ class NLinearModel(nn.Module):
 
         return prediction_result
     
-    def final_predict(self, pred_data, pred_loader, device: torch.device):
+    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger):
         
         preds = []
         trues = []
@@ -197,7 +197,7 @@ class NLinearModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        print('mse:{}, mae:{}'.format(mse, mae))
+        logger.info(f'[NLinear Score] MSE:{mse}, MAE:{mae}, MAPE: {mape}')
         
         pred_result = pd.DataFrame(
             {
