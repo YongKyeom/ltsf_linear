@@ -92,9 +92,7 @@ if __name__ == "__main__":
     # Train NLinear model
     nlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
 
-    nlinear_pred_result = nlinear_model.final_predict(
-        test_set, test_loader, device
-    )
+    
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
     logger.info("Training CNN_NLinear model")
@@ -148,7 +146,9 @@ if __name__ == "__main__":
 
     # Evaluate both models
     logger.info("Evaluating models.")
-    # metrics = {"MAE": compute_mae, "RMSE": compute_rmse, "MdAPE": compute_mdape, "CORR": compute_corr}
+    nlinear_pred_result = nlinear_model.final_predict(test_set, test_loader, device)
+    cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device)
+    hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device)
 
     # for name, func in metrics.items():
     #     logger.info(f"NLinear {name}: {func(test_data, nlinear_predictions)}")
@@ -163,5 +163,5 @@ if __name__ == "__main__":
     
     # ------------------------------------ End of Process ------------------------------------
     END_TIME = datetime.now()
-    print('main.py Elapsed time: {!s}'.format(END_TIME - ST_TIME))
+    logger.info('main.py Elapsed time: {!s}'.format(END_TIME - ST_TIME))
     exit()
