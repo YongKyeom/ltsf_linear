@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 def data_provider(
         embed, 
         train_only,
+        scale,
         batch_size,
         freq,
         flag,
@@ -38,6 +39,7 @@ def data_provider(
         size=[seq_len, label_len, pred_len],
         features=features,
         target=target,
+        scale=scale,
         timeenc=timeenc,
         freq=freq,
         train_only=train_only
@@ -57,6 +59,7 @@ def data_provider(
 def create_dataloaders(
     embed: str = 'timeF', 
     train_only: bool = False,
+    scale: bool = True,
     batch_size:int = 32,
     freq: str = 'h',
     data_type_list: list = ['train', 'valid', 'test', 'pred'],
@@ -73,6 +76,7 @@ def create_dataloaders(
         data_loader_ = data_provider(
             embed = embed,
             train_only = train_only,
+            scale = scale,
             batch_size = batch_size,
             freq = freq,
             flag = flag,
