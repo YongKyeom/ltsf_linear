@@ -1,5 +1,6 @@
 import logging
 import numpy as np
+import pandas as pd
 import math
 import torch
 import torch.nn as nn
@@ -8,6 +9,8 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
+
+from utils.metrics import metric
 
 
 class CNN_NLinear(nn.Module):
