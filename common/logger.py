@@ -4,38 +4,37 @@ from rich.logging import RichHandler
 
 
 def get_today_str(date):
-    import datetime as dt
-
     return date.strftime("%Y%m%d")
 
 
 def make_logg(path, name, level, date):
+    # Log format
+    formatter = logging.Formatter(
+        "%(asctime)s %(funcName)s Line %(lineno)d [%(levelname)s]: %(message)s"
+    )
 
-    ## Log format
-    formatter = "%(asctime)s %(funcName)s Line %(lineno)d [%(levelname)s]: %(message)s"
-    ## Rich handler
-    logging.basicConfig(format=formatter, handlers=[RichHandler(rich_tracebacks=True)])
-
-    ## Log path(File)
-    logpath = path + get_today_str(date) + "_" + name + ".log"
+    # Log path(File)
+    logpath = f"{path}{get_today_str(date)}_{name}.log"
     logger = logging.getLogger(name)
 
-    # Check handler exists
+    # Check handler exists to avoid duplicates
     if len(logger.handlers) > 0:
-        return logger  # Logger already exists
+        return logger
 
     logger.setLevel(level)
 
-    console = logging.StreamHandler()
+    # RichHandler for console output
+    rich_handler = RichHandler(rich_tracebacks=True)
+    rich_handler.setLevel(level)
+    rich_handler.setFormatter(formatter)
+
+    # FileHandler for log file output
     file_handler = logging.FileHandler(filename=logpath, mode="a", encoding="utf-8")
-
-    console.setLevel(logging.DEBUG)
-    file_handler.setLevel(logging.DEBUG)
-
-    console.setFormatter(formatter)
+    file_handler.setLevel(level)
     file_handler.setFormatter(formatter)
 
-    logger.addHandler(console)
+    # Add handlers to logger
+    logger.addHandler(rich_handler)
     logger.addHandler(file_handler)
 
     return logger
@@ -43,6 +42,8 @@ def make_logg(path, name, level, date):
 
 class Logger:
     def __init__(self, path="./logs/", name="Preprocessing", level=logging.DEBUG, date=None):
+        if date is None:
+            date = dt.datetime.now()
         self.__logger = make_logg(path, name, level, date)
         self.__path = path
         self.__name = name
