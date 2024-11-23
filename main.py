@@ -57,6 +57,7 @@ if __name__ == "__main__":
     ) =  create_dataloaders(
         embed = 'timeF', 
         train_only = False,
+        scale = True,
         batch_size = NLINEAR_PARAMETER['batch_size'],
         freq = 'h',
         data_type_list = ['train', 'val', 'test', 'pred'],
@@ -91,7 +92,9 @@ if __name__ == "__main__":
     # Train NLinear model
     nlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
 
-    
+    nlinear_pred_result = nlinear_model.final_predict(
+        test_set, test_loader, device
+    )
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
     logger.info("Training CNN_NLinear model")
