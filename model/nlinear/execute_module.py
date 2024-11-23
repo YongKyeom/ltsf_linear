@@ -1,11 +1,14 @@
 import logging
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
+
+from utils.metrics import metric
 
 
 class NLinearModel(nn.Module):
@@ -118,7 +121,7 @@ class NLinearModel(nn.Module):
                 val_loss = 0.0
                 with torch.no_grad():
                     for x, y in val_loader:
-                        x, y = x.to(device), y.to(device)
+                        x, y = x.float().to(device), y.float().to(device)
                         y_pred = self(x)
                         val_loss += criterion(y_pred, y).item()
                 avg_val_loss = val_loss / len(val_loader)
@@ -164,12 +167,44 @@ class NLinearModel(nn.Module):
             np.array: Predictions in the specified format.
         """
         self.eval()
-        final_predictions = []
+        prediction_result = []
         with torch.no_grad():
             for x, _ in data_loader:
                 x = x.to(device)
                 predictions = self(x).detach().numpy()
                 for pred_values in predictions:
-                    final_predictions.append(pred_values.reshape(1, -1)[0])
+                    prediction_result.append(pred_values.reshape(1, -1)[0])
 
-        return final_predictions
+        return prediction_result
+    
+    def final_predict(self, pred_data, pred_loader, device: torch.device):
+        
+        preds = []
+        trues = []
+        self.eval()
+        with torch.no_grad():
+            for i, (x, y) in enumerate(pred_loader):
+                x, y = x.float().to(device), y.float().to(device)
+                
+                outputs = self(x)
+                pred = outputs.detach().cpu().numpy()
+                true = y.detach().cpu().numpy()
+
+                preds.append(pred)
+                trues.append(true)
+
+        preds = np.concatenate(preds, axis=0)
+        trues = np.concatenate(trues, axis=0)
+        
+        mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
+        print('mse:{}, mae:{}'.format(mse, mae))
+        
+        pred_result = pd.DataFrame(
+            {
+                'true': [x[0] for x in np.concatenate(trues).tolist()],
+                'pred': [x[0] for x in np.concatenate(preds).tolist()]
+            }
+        )
+        pred_result.insert(0, 'model_name', 'nlinear')
+
+        return pred_result
