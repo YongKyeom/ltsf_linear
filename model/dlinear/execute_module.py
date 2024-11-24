@@ -241,7 +241,7 @@ class DLinearModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[DLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}, Corr: {corr:.4f}')
+        logger.info(f'[DLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}')
         
         pred_result = pd.DataFrame(
             {
@@ -487,7 +487,7 @@ class DNLinearModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[DNLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}, Corr: {corr:.4f}')
+        logger.info(f'[DNLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}')
         
         pred_result = pd.DataFrame(
             {

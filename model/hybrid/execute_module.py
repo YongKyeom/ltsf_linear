@@ -244,7 +244,7 @@ class HybridModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[Hybrid model Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}, Corr: {corr:.4f}')
+        logger.info(f'[Hybrid model Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}')
         
         pred_result = pd.DataFrame(
             {
