@@ -1,9 +1,25 @@
+import os
 import numpy as np
-import torch
 import matplotlib.pyplot as plt
+import torch
 import time
+import random
 
 plt.switch_backend("agg")
+
+
+def set_seed(seed: int = 2024) -> None:
+    """
+    고정된 랜덤 시드 설정
+
+    Args:
+        seed (int): 고정할 시드 값
+    """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    
+    os.environ["PYTHONHASHSEED"] = str(seed)
 
 
 def adjust_learning_rate(optimizer, epoch, learning_rate, lradj, logger):

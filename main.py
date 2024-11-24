@@ -18,7 +18,7 @@ from model.dlinear.execute_module import DLinearModel, DNLinearModel
 from model.cnn_nlinear.execute_module import CNN_NLinear
 from model.hybrid.execute_module import HybridModel
 from model.hyperoptimize import optimize_hybrid
-
+from utils.tools import set_seed
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 warnings.simplefilter(action="ignore", category=RuntimeWarning)
@@ -83,6 +83,7 @@ if __name__ == "__main__":
         if key not in ["opt_hyperpara", "space", "default_space"]:
             nlinear_params[key] = values
     # Initialize NLinear model
+    set_seed()
     nlinear_model = NLinearModel(
         window_size=nlinear_params["window_size"],
         forecast_size=nlinear_params["forecast_size"],
@@ -97,6 +98,7 @@ if __name__ == "__main__":
     ## ------------------------------------ DLinear Training ------------------------------------ ##
     # Initialize DLinear model
     logger.info("Training DLinear model")
+    set_seed()
     dlinear_model = DLinearModel(
         window_size=nlinear_params["window_size"],
         forecast_size=nlinear_params["forecast_size"],
@@ -111,6 +113,7 @@ if __name__ == "__main__":
     ## ------------------------------------ DLinear + NLinear Training ------------------------------------ ##
     # Initialize DLinear model
     logger.info("Training DLinear + NLinear model")
+    set_seed()
     dnlinear_model = DNLinearModel(
         window_size=nlinear_params["window_size"],
         forecast_size=nlinear_params["forecast_size"],
