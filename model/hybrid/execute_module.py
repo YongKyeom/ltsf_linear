@@ -9,14 +9,17 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
 
+from model.nlinear.execute_module import NLinearModel
+from model.dlinear.execute_module import DLinearModel
+from model.cnn_nlinear.execute_module import CNN_NLinear
 from utils.metrics import metric
 
 
 class HybridModel(nn.Module):
     def __init__(
         self,
-        nlinear_model: "NLinear",
-        cnn_nlinear_model: "CNN_NLinear",
+        nlinear_model: NLinearModel,
+        cnn_nlinear_model: CNN_NLinear,
         num_heads: int = 4,
         window_size: int = 336,
         forecast_size: int = 96,
@@ -241,7 +244,7 @@ class HybridModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[Hybrid model Score] MSE:{mse:.3f}, MAE:{mae:.3f}, MAPE: {mape:.3f}')
+        logger.info(f'[Hybrid model Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}, Corr: {corr:.4f}')
         
         pred_result = pd.DataFrame(
             {
