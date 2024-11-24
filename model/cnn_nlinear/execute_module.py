@@ -140,6 +140,7 @@ class CNN_NLinear(nn.Module):
         epochs: int = 50,
         lr: float = 0.001,
         patience: int = 10,
+        best_model_path = "./result/best_model__cnn_ninear.pth"
     ):
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-5)
@@ -201,7 +202,7 @@ class CNN_NLinear(nn.Module):
                     patience_counter = 0
                     if self.logger is not None:
                         self.logger.info("Save best model")
-                    torch.save(self.state_dict(), "best_model__cnn_nlinear.pth")
+                    torch.save(self.state_dict(), best_model_path)
                 else:
                     patience_counter += 1
 
@@ -212,9 +213,10 @@ class CNN_NLinear(nn.Module):
             else:
                 if self.logger is not None:
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
-                    self.logger.info(f"Save CNN_NLinear model")
-                # Save the model in case of no validation data
-                torch.save(self.state_dict(), "best_model_no_val__cnn_nlinear.pth")
+                    if (epoch + 1) == epochs:
+                            torch.save(self.state_dict(), best_model_path)
+        
+        self.load_state_dict(torch.load(best_model_path))
 
     def predict(self, data_loader: DataLoader, device: torch.device) -> np.array:
         """
@@ -259,7 +261,7 @@ class CNN_NLinear(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[CNN + NLinear Score] MSE:{mse}, MAE:{mae}, MAPE: {mape}')
+        logger.info(f'[CNN + NLinear Score] MSE:{mse:.3f}, MAE:{mae:.3f}, MAPE: {mape:.3f}')
         
         pred_result = pd.DataFrame(
             {

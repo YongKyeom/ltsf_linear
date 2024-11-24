@@ -47,6 +47,14 @@ class HybridModel(nn.Module):
         self.nlinear_model = nlinear_model
         self.cnn_nlinear_model = cnn_nlinear_model
 
+        ## Freeze NLineaer, CNN_Linear model
+        for name, param in self.nlinear_model.named_parameters():
+            if name in ['linear.0.weight', 'linear.2.weight']:
+                param.requires_grad = True
+        for name, param in self.cnn_nlinear_model.named_parameters():
+            if name in ['linear.0.weight', 'linear.2.weight']:
+                param.requires_grad = True
+
     def _init_weights(self, m):
         """
         Initialize weights for all layers
@@ -111,6 +119,7 @@ class HybridModel(nn.Module):
         epochs: int = 50,
         lr: float = 0.001,
         patience: int = 10,
+        best_model_path = "./result/best_model__hybrid.pth"
     ):
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-5)
@@ -172,7 +181,7 @@ class HybridModel(nn.Module):
                     if self.logger is not None:
                         self.logger.info("Save best model")
                     # Save best model
-                    torch.save(self.state_dict(), "best_model__hybrid.pth")
+                    torch.save(self.state_dict(), best_model_path)
                 else:
                     patience_counter += 1
 
@@ -183,8 +192,11 @@ class HybridModel(nn.Module):
             else:
                 if self.logger is not None:
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
-                # Save final model
-                torch.save(self.state_dict(), "best_model_no_val__hybrid.pth")
+                    if (epoch + 1) == epochs:
+                        torch.save(self.state_dict(), best_model_path)
+        
+        self.load_state_dict(torch.load(best_model_path))
+
 
     def predict(self, data_loader: DataLoader, device: torch.device) -> np.array:
         """
@@ -229,7 +241,7 @@ class HybridModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[Hybrid model Score] MSE:{mse}, MAE:{mae}, MAPE: {mape}')
+        logger.info(f'[Hybrid model Score] MSE:{mse:.3f}, MAE:{mae:.3f}, MAPE: {mape:.3f}')
         
         pred_result = pd.DataFrame(
             {
