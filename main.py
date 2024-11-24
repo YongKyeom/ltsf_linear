@@ -14,6 +14,7 @@ from config.config import CORE_CNT, DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETE
 from data.data_loader import load_data
 from data.data_factor import data_provider, create_dataloaders
 from model.nlinear.execute_module import NLinearModel
+from model.dlinear.execute_module import DLinearModel
 from model.cnn_nlinear.execute_module import CNN_NLinear
 from model.hybrid.execute_module import HybridModel
 from model.hyperoptimize import optimize_hybrid
@@ -92,6 +93,19 @@ if __name__ == "__main__":
     # Train NLinear model
     nlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
 
+
+    ## ------------------------------------ DLinear Training ------------------------------------ ##
+    # Initialize DLinear model
+    logger.info("Training DLinear model")
+    dlinear_model = DLinearModel(
+        window_size=nlinear_params["window_size"],
+        forecast_size=nlinear_params["forecast_size"],
+        individual=nlinear_params["individual"],
+        enc_in=nlinear_params["feature_size"],
+        logger=logger,
+    ).to(device)
+    # Train NLinear model
+    dlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
     
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
@@ -147,6 +161,7 @@ if __name__ == "__main__":
     # Evaluate both models
     logger.info("Evaluating models.")
     nlinear_pred_result = nlinear_model.final_predict(test_set, test_loader, device, logger)
+    dlinear_pred_result = dlinear_model.final_predict(test_set, test_loader, device, logger)
     cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device, logger)
     hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device, logger)
 
