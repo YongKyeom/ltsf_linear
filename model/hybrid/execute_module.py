@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
-from typing import Optional
+from typing import Optional, Tuple
 
 from model.nlinear.execute_module import NLinearModel
 from model.dlinear.execute_module import DLinearModel
@@ -17,101 +17,115 @@ from utils.metrics import metric
 
 class HybridModel(nn.Module):
     def __init__(
-        self,
-        nlinear_model: NLinearModel,
-        cnn_nlinear_model: CNN_NLinear,
-        num_heads: int = 4,
-        window_size: int = 336,
-        forecast_size: int = 96,
+        self, 
+        nlinear_model: nn.Module, 
+        cnn_nlinear_model: nn.Module, 
+        window_size: int = 332,
+        feature_dim: int = 1,
         dropout_rate: float = 0.1,
-        logger: logging.Logger = None,
-    ) -> None:
+        logger: logging.Logger = None
+    ):
         super(HybridModel, self).__init__()
-        
-        self.logger = logger
-        self.num_heads = num_heads
+        self.dropout_rate = dropout_rate
         self.window_size = window_size
-        self.forecast_size = forecast_size
-        self.embed_dim = window_size
+        self.feature_dim = feature_dim
+        self.logger = logger
+        
+        # Attention weights
+        self.query_weight = nn.Parameter(torch.Tensor(feature_dim, feature_dim))
+        self.key_weight = nn.Parameter(torch.Tensor(feature_dim, feature_dim))
+        self.value_weight = nn.Parameter(torch.Tensor(feature_dim, feature_dim))
 
-        # Multihead Attention
-        self.attention = nn.MultiheadAttention(self.embed_dim, self.num_heads, batch_first=True)
-
-        # Output Layer
-        self.out_proj = nn.Linear(self.embed_dim, 1)
-
-        # Residual weight
+        # Dropout & Normalization for Attention output
+        self.dropout = nn.Dropout(dropout_rate)
+        self.attention_norm = nn.LayerNorm(normalized_shape=[window_size, feature_dim])
+        
+        # Residual Connection 
         self.residual_weight = nn.Parameter(torch.Tensor(1))
 
-        # Weight initialization
-        self.apply(self._init_weights)
+        # Weight 초기화
+        self._initialize_weights()
 
-        # NLinear, CNN_NLinear model
+        # Prior models
         self.nlinear_model = nlinear_model
         self.cnn_nlinear_model = cnn_nlinear_model
+        
+        # Freeze NLinear and CNN_NLinear model parameters
+        for _, param in self.nlinear_model.named_parameters():
+            param.requires_grad = False
+        for _, param in self.cnn_nlinear_model.named_parameters():
+            param.requires_grad = False
 
-        ## Freeze NLineaer, CNN_Linear model
-        for name, param in self.nlinear_model.named_parameters():
-            if name in ['linear.0.weight', 'linear.2.weight']:
-                param.requires_grad = True
-        for name, param in self.cnn_nlinear_model.named_parameters():
-            if name in ['linear.0.weight', 'linear.2.weight']:
-                param.requires_grad = True
-
-    def _init_weights(self, m):
+    def _initialize_weights(self):
         """
-        Initialize weights for all layers
+        Initialize weights for the model.
         """
-        if isinstance(m, nn.Linear):
-            # Xavier Initialization for Linear layers
-            nn.init.xavier_uniform_(m.weight)
-            if m.bias is not None:
-                nn.init.zeros_(m.bias)
-        elif isinstance(m, nn.Conv1d):
-            # Kaiming (He) Initialization for Conv1d layers
-            nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-            if m.bias is not None:
-                nn.init.zeros_(m.bias)
-        elif isinstance(m, nn.BatchNorm1d):
-            # BatchNorm Initialization: weight to 1, bias to 0
-            nn.init.ones_(m.weight)
-            nn.init.zeros_(m.bias)
-        elif isinstance(m, nn.MultiheadAttention):
-            # MultiheadAttention Initialization
-            for name, param in m.named_parameters():
-                if 'in_proj_weight' in name or 'out_proj.weight' in name:
-                    nn.init.xavier_uniform_(param)
-                elif 'in_proj_bias' in name or 'out_proj.bias' in name:
-                    nn.init.zeros_(param)
+        nn.init.xavier_uniform_(self.query_weight)
+        nn.init.xavier_uniform_(self.key_weight)
+        nn.init.xavier_uniform_(self.value_weight)
+        nn.init.uniform_(self.residual_weight, 0.9, 1.0)
 
-    def forward(self, x):
+    def attention(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Calculate the attention weights and output.
+
+        Args:
+            query (torch.Tensor): The query tensor.
+            key (torch.Tensor): The key tensor.
+            value (torch.Tensor): The value tensor.
+
+        Returns:
+            Tuple[torch.Tensor, torch.Tensor]: The attention output and weights.
+        """
+        query = torch.matmul(query, self.query_weight)
+        key = torch.matmul(key, self.key_weight)
+        value = torch.matmul(value, self.value_weight)
+
+        scores = torch.matmul(query, key.transpose(-2, -1)) / (self.feature_dim ** 0.5)
+        weights = torch.softmax(scores, dim=-1)
+        output = torch.matmul(weights, value)
+        
+        return output, weights
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Forward pass for the stacking model.
+
+        Args:
+            x (torch.Tensor): The input tensor with shape [batch_size, seq_len, feature_dim].
+
+        Returns:
+            torch.Tensor: The final output tensor.
+        """
         x = x.float()
-        batch_size, window_size, _ = x.size()
-
-        # x를 embedding 차원으로 확장
-        x_embed = x.unsqueeze(2).expand(-1, -1, self.forecast_size, -1)
-        x_embed = x_embed.permute(0, 2, 1, 3)
-
-        # Output of NLinear, CNN_NLinear
+        
+        # Model output
         nlinear_output = self.nlinear_model(x)
         cnn_nlinear_output = self.cnn_nlinear_model(x)
 
-        # Calculate Attention
-        combined_inputs = x_embed.view(batch_size, self.forecast_size, window_size)
-        combined_inputs = combined_inputs.permute(1, 0, 2)
-        attn_output, attn_weights = self.attention(combined_inputs, combined_inputs, combined_inputs)
+        # Calculate Attention for x and NLinear, CNN_NLinear output
+        attn_output_nlinear, _ = self.attention(x, nlinear_output, nlinear_output)
+        attn_output_cnn_nlinear, _ = self.attention(x, cnn_nlinear_output, cnn_nlinear_output)
+        # Dropout & Normalization for Attention output
+        attn_output_nlinear = self.attention_norm(self.dropout(attn_output_nlinear))
+        attn_output_cnn_nlinear = self.attention_norm(self.dropout(attn_output_cnn_nlinear))
 
-        # w <- Attention average
-        attn_output_mean = attn_output.mean(dim=2)
-        w = torch.sigmoid(attn_output_mean).permute(1, 0).unsqueeze(-1) 
+        # Calculate weights using Softmax
+        attn_output_mean_nlinear = attn_output_nlinear.mean(dim=1)
+        attn_output_mean_cnn_nlinear = attn_output_cnn_nlinear.mean(dim=1)
+        weights = torch.softmax(torch.stack([attn_output_mean_nlinear, attn_output_mean_cnn_nlinear], dim=0), dim=0)
 
-        # Output = w * NLinear + (1-w) * CNN_NLinear
-        weighted_sum = w * nlinear_output + (1 - w) * cnn_nlinear_output
+        # Model weithts
+        w1 = weights[0].unsqueeze(1)
+        w2 = weights[1].unsqueeze(1)
+
+        # Output = w1 * NLinear + w2 * CNN_NLinear
+        final_output = w1 * nlinear_output + w2 * cnn_nlinear_output
 
         # Residual Connection
-        final_output = weighted_sum + self.residual_weight * (nlinear_output + cnn_nlinear_output)
-
-        return final_output
+        # final_output = (1- self.residual_weight) * final_output + self.residual_weight * (nlinear_output + cnn_nlinear_output) / 2
+        
+        return final_output    
 
     def train_model(
         self,

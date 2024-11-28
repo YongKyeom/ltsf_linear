@@ -50,7 +50,7 @@ def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, device) ->
     return best
 
 
-def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -> float:
+def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, test_loader, device) -> float:
     """
     NLinear + CNN_NLinear 모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
     """
@@ -58,7 +58,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -
         window_size=params["window_size"],
         forecast_size=params["forecast_size"],
         individual=params["individual"],
-        feature_size=max(int(params["feature_size"]), 10),
+        feature_size=params["in_channels"],
     ).to(device)
 
     cnn_nlinear_model = CNN_NLinear(
@@ -67,18 +67,16 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -
         conv_kernel_size=max(int(params["conv_kernel_size"]), 3),
         conv_filters=max(int(params["conv_filters"]), 3),
         in_channels=params["in_channels"],
-        dropout_rate=max(int(params["dropout_rate"]), 0),
+        dropout_rate=max(params["dropout_rate"], 0),
     ).to(device)
 
     model = HybridModel(
         nlinear_model=nlinear_model,
         cnn_nlinear_model=cnn_nlinear_model,
-        num_heads=params["num_heads"],
         window_size=params["window_size"],
-        forecast_size=params["forecast_size"],
-        dropout_rate=params["dropout_rate"],
+        dropout_rate=params["dropout_rate"]
     ).to(device)
-    model.train_model(train_loader, val_loader, device)
+    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
 
     # Validation RMSE calculation
     model.eval()
@@ -93,7 +91,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, device) -
     return {"loss": val_loss, "status": STATUS_OK}
 
 
-def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, device) -> Dict[str, Any]:
+def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader, device) -> Dict[str, Any]:
     """
     NLinear + CNN_NLinear 모델 Hyper optimization 수행함수
 
@@ -102,7 +100,7 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, device) -> 
     """
     trials = Trials()
     best = fmin(
-        fn=lambda params: objective_hybrid(params, train_loader, val_loader, device),
+        fn=lambda params: objective_hybrid(params, train_loader, val_loader, test_loader, device),
         space=space,
         algo=tpe.suggest,
         max_evals=100,
