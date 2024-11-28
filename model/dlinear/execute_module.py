@@ -116,9 +116,9 @@ class DLinearModel(nn.Module):
         val_loader: Optional[DataLoader],
         test_loader: Optional[DataLoader],
         device: torch.device,
-        epochs: int = 50,
-        lr: float = 0.001,
-        patience: int = 10,
+        epochs: int = 100,
+        lr: float = 0.005,
+        patience: int = 15,
         best_model_path = "./result/best_model__dlinear.pth"
     ):
         """
