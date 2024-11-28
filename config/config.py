@@ -7,6 +7,8 @@ CORE_CNT = min(os.cpu_count(), 8)
 DATE_COL_NM = "date"
 ## Y컬럼 이름
 TARGET_COL_NM = "OT"
+## SEED Number
+SEED_NUM = 2024
 
 ## NLinear 모델 Parameter
 NLINEAR_PARAMETER = {
@@ -23,9 +25,9 @@ NLINEAR_PARAMETER = {
 HYBRID_PARAMETER = {
     "opt_hyperpara": False,
     "space": {
-        "conv_kernel_size": hp.uniform("conv_kernel_size", 5, 50),
+        "conv_kernel_size": hp.uniform("conv_kernel_size", 7, 63),
         "conv_filters": hp.uniform("conv_filters", 8, 64),
-        "dropout_rate": hp.uniform("dropout_rate", 0, 0.3),
+        "dropout_rate": hp.uniform("dropout_rate", 0, 0.5),
     },
     "default_space": {
         "conv_kernel_size": 21,

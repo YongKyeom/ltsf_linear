@@ -10,14 +10,14 @@ from datetime import datetime
 from common.metrics import compute_mae, compute_rmse, compute_mdape, compute_corr
 from common.visualize import plot_predictions
 from common.logger import Logger
-from config.config import CORE_CNT, DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETER, HYBRID_PARAMETER
+from config.config import DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETER, HYBRID_PARAMETER, SEED_NUM
 from data.data_loader import load_data
-from data.data_factor import data_provider, create_dataloaders
+from data.data_factor import create_dataloaders
 from model.nlinear.execute_module import NLinearModel
 from model.dlinear.execute_module import DLinearModel, DNLinearModel
 from model.cnn_nlinear.execute_module import CNN_NLinear
 from model.hybrid.execute_module import HybridModel
-from model.hyperoptimize import optimize_hybrid
+from model.hyperoptimize import optimize_cnn_nlinear
 from utils.tools import set_seed
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     # Hyper paremter of NLinear
     logger.info("Training NLinear model")
     # Initialize NLinear model
-    set_seed()
+    set_seed(SEED_NUM)
     nlinear_model = NLinearModel(
         window_size=NLINEAR_PARAMETER["window_size"],
         forecast_size=NLINEAR_PARAMETER["forecast_size"],
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     ## ------------------------------------ DLinear Training ------------------------------------ ##
     # Initialize DLinear model
     logger.info("Training DLinear model")
-    set_seed()
+    set_seed(SEED_NUM)
     dlinear_model = DLinearModel(
         window_size=NLINEAR_PARAMETER["window_size"],
         forecast_size=NLINEAR_PARAMETER["forecast_size"],
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     ## ------------------------------------ DLinear + NLinear Training ------------------------------------ ##
     # Initialize DLinear model
     logger.info("Training DLinear + NLinear model")
-    set_seed()
+    set_seed(SEED_NUM)
     dnlinear_model = DNLinearModel(
         window_size=NLINEAR_PARAMETER["window_size"],
         forecast_size=NLINEAR_PARAMETER["forecast_size"],
@@ -124,7 +124,6 @@ if __name__ == "__main__":
     
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
-    logger.info("Training CNN_NLinear model")
     if HYBRID_PARAMETER["opt_hyperpara"] is True:
         hybrid_params = HYBRID_PARAMETER["space"]
     else:
@@ -134,11 +133,15 @@ if __name__ == "__main__":
             hybrid_params[key] = values
 
     if HYBRID_PARAMETER["opt_hyperpara"] is True:
-        hybrid_best_params = optimize_hybrid(hybrid_params, train_loader, val_loader, test_loader, device)
+        logger.info("Optimization of CNN_NLinear model")
+        set_seed(SEED_NUM)
+        hybrid_best_params = optimize_cnn_nlinear(hybrid_params, train_loader, val_loader, test_loader, device)
     else:
         hybrid_best_params = hybrid_params
 
-    # Initialize CNN_NLinear model
+    # Train CNN_NLinear model
+    logger.info("Training CNN_NLinear model")
+    set_seed(SEED_NUM)
     cnn_nlinear_model = CNN_NLinear(
         window_size=hybrid_best_params["window_size"],
         forecast_size=hybrid_best_params["forecast_size"],
@@ -154,10 +157,9 @@ if __name__ == "__main__":
 
     ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
     logger.info("Training Hybrid model")
+    set_seed(SEED_NUM)
     ## Initialize Hybrid model
     hybrid_model = HybridModel(
-        # nlinear_model=nlinear_model,
-        # cnn_nlinear_model=cnn_nlinear_model,
         models=[nlinear_model, dlinear_model, dnlinear_model, cnn_nlinear_model],
         window_size=hybrid_best_params["window_size"],
         dropout_rate=hybrid_best_params["dropout_rate"],
