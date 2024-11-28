@@ -5,6 +5,9 @@ This repository contains the final project for the Advanced Machine Learning The
 The project implements and extends the findings from the paper "Are Transformers Effective for Time Series Forecasting?".   
 Link: https://arxiv.org/pdf/2205.13504   
 Github(Official): https://github.com/cure-lab/LTSF-Linear  
+ETTh1 Dataset:  
+    - AutoFormer Github(Official): https://github.com/thuml/Autoformer  
+    - https://drive.google.com/drive/folders/1ZOYpTUa82_jCcxIdTmyr0LXQfvaM9vIy  
    
 ### Objectives   
 1. **Paper Implementation**: Implement the models and methods presented in the paper "Are Transformers Effective for Time Series Forecasting?".   
