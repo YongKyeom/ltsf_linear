@@ -130,15 +130,17 @@ if __name__ == "__main__":
         if key not in ["opt_hyperpara", "space", "default_space"]:
             hybrid_params[key] = values
 
+    hybrid_best_params = hybrid_params
     if HYBRID_PARAMETER["opt_hyperpara"] is True:
         logger.info("Optimization of CNN_NLinear model")
         set_seed(SEED_NUM)
-        hybrid_best_params = optimize_cnn_nlinear(hybrid_params, train_loader, val_loader, test_loader, device)
+        best_params = optimize_cnn_nlinear(hybrid_params, train_loader, val_loader, test_loader, device)
+
+        for key, values in best_params.items():
+            hybrid_best_params[key] = values
 
         logger.info(f"Best hyperparameters for CNN_NLinear model: {hybrid_best_params}")
-    else:
-        hybrid_best_params = hybrid_params
-
+    
     # Train CNN_NLinear model
     logger.info("Training CNN_NLinear model")
     set_seed(SEED_NUM)
