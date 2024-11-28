@@ -214,8 +214,8 @@ class CNN_NLinear(nn.Module):
             else:
                 if self.logger is not None:
                     self.logger.info(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}")
-                    if (epoch + 1) == epochs:
-                            torch.save(self.state_dict(), best_model_path)
+                if (epoch + 1) == epochs:
+                    torch.save(self.state_dict(), best_model_path)
         
         self.load_state_dict(torch.load(best_model_path))
 
