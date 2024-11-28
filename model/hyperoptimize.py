@@ -53,7 +53,7 @@ def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, test_loade
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(15)
     )
 
     return best
@@ -103,7 +103,7 @@ def optimize_cnn_nlinear(space: Dict[str, Any], train_loader, val_loader, test_l
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(15)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
@@ -171,7 +171,7 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(15)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
