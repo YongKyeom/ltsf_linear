@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.nn as nn
 
 from hyperopt import fmin, tpe, Trials, STATUS_OK
 from hyperopt.early_stop import no_progress_loss
@@ -11,7 +12,7 @@ from typing import Dict, Any
 from common.metrics import compute_mse
 from config.config import SEED_NUM
 
-def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, device) -> float:
+def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, test_loader, device) -> float:
     """
     NLinear모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
     """
@@ -20,22 +21,24 @@ def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, device) 
         forecast_size=params["forecast_size"],
         individual=params["individual"],
     ).to(device)
-    model.train_model(train_loader, val_loader, device)
-
+    model.train_model(train_loader, val_loader, test_loader, device)
+    
     # Validation RMSE calculation
+    criterion = nn.MSELoss()
     model.eval()
     val_loss = 0
     with torch.no_grad():
         for x, y_true in val_loader:
-            x, y_true = x.to(device), y_true.to(device)
+            x, y_true = x.float().to(device), y_true.float().to(device)
             y_pred = model(x)
-            val_loss += compute_mse(y_true, y_pred).item()
+            loss = criterion(y_pred, y_true)
+            val_loss += loss
     val_loss /= len(val_loader)
 
     return {"loss": val_loss, "status": STATUS_OK}
 
 
-def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, device) -> Dict[str, Any]:
+def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, test_loader, device) -> Dict[str, Any]:
     """
     NLinear 모델 Hyper optimization 수행함수
 
@@ -44,7 +47,7 @@ def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, device) ->
     """
     trials = Trials()
     best = fmin(
-        fn=lambda params: objective_nlinear(params, train_loader, val_loader, device),
+        fn=lambda params: objective_nlinear(params, train_loader, val_loader, test_loader, device),
         space=space,
         algo=tpe.suggest,
         max_evals=100,
@@ -68,16 +71,18 @@ def objective_cnn_nlinear(params: Dict[str, Any], train_loader, val_loader, test
         in_channels=params["in_channels"],
         dropout_rate=min(max(params["dropout_rate"], 0), 0.5)
     ).to(device)
-    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
+    model.train_model(train_loader, val_loader, test_loader, device)
 
     # Validation RMSE calculation
+    criterion = nn.MSELoss()
     model.eval()
     val_loss = 0
     with torch.no_grad():
         for x, y_true in val_loader:
-            x, y_true = x.to(device), y_true.to(device)
+            x, y_true = x.float().to(device), y_true.float().to(device)
             y_pred = model(x)
-            val_loss += compute_mse(y_true, y_pred).item()
+            loss = criterion(y_pred, y_true)
+            val_loss += loss
     val_loss /= len(val_loader)
 
     return {"loss": val_loss, "status": STATUS_OK}
@@ -130,16 +135,18 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, test_load
         window_size=params["window_size"],
         dropout_rate=params["dropout_rate"]
     ).to(device)
-    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
+    model.train_model(train_loader, val_loader, test_loader, device)
 
     # Validation RMSE calculation
+    criterion = nn.MSELoss()
     model.eval()
     val_loss = 0
     with torch.no_grad():
         for x, y_true in val_loader:
-            x, y_true = x.to(device), y_true.to(device)
+            x, y_true = x.float().to(device), y_true.float().to(device)
             y_pred = model(x)
-            val_loss += compute_mse(y_true, y_pred).item()
+            loss = criterion(y_pred, y_true)
+            val_loss += loss
     val_loss /= len(val_loader)
 
     return {"loss": val_loss, "status": STATUS_OK}

@@ -7,7 +7,6 @@ import os
 
 from datetime import datetime
 
-from common.metrics import compute_mae, compute_rmse, compute_mdape, compute_corr
 from common.visualize import plot_predictions
 from common.logger import Logger
 from config.config import DATE_COL_NM, TARGET_COL_NM, NLINEAR_PARAMETER, HYBRID_PARAMETER, SEED_NUM
@@ -58,7 +57,6 @@ if __name__ == "__main__":
     ) =  create_dataloaders(
         embed = 'timeF', 
         train_only = False,
-        scale = True,
         batch_size = NLINEAR_PARAMETER['batch_size'],
         freq = 'h',
         data_type_list = ['train', 'val', 'test', 'pred'],
@@ -136,6 +134,8 @@ if __name__ == "__main__":
         logger.info("Optimization of CNN_NLinear model")
         set_seed(SEED_NUM)
         hybrid_best_params = optimize_cnn_nlinear(hybrid_params, train_loader, val_loader, test_loader, device)
+
+        logger.info(f"Best hyperparameters for CNN_NLinear model: {hybrid_best_params}")
     else:
         hybrid_best_params = hybrid_params
 
@@ -181,11 +181,6 @@ if __name__ == "__main__":
     dnlinear_pred_result = dnlinear_model.final_predict(test_set, test_loader, device, logger)
     cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device, logger)
     hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device, logger)
-
-    # for name, func in metrics.items():
-    #     logger.info(f"NLinear {name}: {func(test_data, nlinear_predictions)}")
-    #     logger.info(f"CNN_NLinear {name}: {func(test_data, cnn_nlinear_predictions)}")
-    #     logger.info(f"Hybrid {name}: {func(test_data, hybrid_predictions)}")
 
     
     # ## ------------------------------------ Visualize Predict Result ------------------------------------ ##
