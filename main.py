@@ -78,21 +78,17 @@ if __name__ == "__main__":
     
     # Hyper paremter of NLinear
     logger.info("Training NLinear model")
-    nlinear_params = NLINEAR_PARAMETER["default_space"]
-    for key, values in NLINEAR_PARAMETER.items():
-        if key not in ["opt_hyperpara", "space", "default_space"]:
-            nlinear_params[key] = values
     # Initialize NLinear model
     set_seed()
     nlinear_model = NLinearModel(
-        window_size=nlinear_params["window_size"],
-        forecast_size=nlinear_params["forecast_size"],
-        individual=nlinear_params["individual"],
-        feature_size=nlinear_params["feature_size"],
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        feature_size=NLINEAR_PARAMETER["feature_size"],
         logger=logger,
     ).to(device)
     # Train NLinear model
-    nlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
+    nlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
 
 
     ## ------------------------------------ DLinear Training ------------------------------------ ##
@@ -100,14 +96,14 @@ if __name__ == "__main__":
     logger.info("Training DLinear model")
     set_seed()
     dlinear_model = DLinearModel(
-        window_size=nlinear_params["window_size"],
-        forecast_size=nlinear_params["forecast_size"],
-        individual=nlinear_params["individual"],
-        enc_in=nlinear_params["feature_size"],
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        enc_in=NLINEAR_PARAMETER["feature_size"],
         logger=logger,
     ).to(device)
     # Train NLinear model
-    dlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
+    dlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
 
 
     ## ------------------------------------ DLinear + NLinear Training ------------------------------------ ##
@@ -115,14 +111,15 @@ if __name__ == "__main__":
     logger.info("Training DLinear + NLinear model")
     set_seed()
     dnlinear_model = DNLinearModel(
-        window_size=nlinear_params["window_size"],
-        forecast_size=nlinear_params["forecast_size"],
-        individual=nlinear_params["individual"],
-        enc_in=nlinear_params["feature_size"],
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        enc_in=NLINEAR_PARAMETER["feature_size"],
+        kernel_size=NLINEAR_PARAMETER["kernel_size"],
         logger=logger,
     ).to(device)
     # Train NLinear model
-    dnlinear_model.train_model(train_loader, val_loader, test_loader, device, nlinear_params['epochs'], nlinear_params['learning_rate'])
+    dnlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
     
     
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
@@ -137,7 +134,7 @@ if __name__ == "__main__":
             hybrid_params[key] = values
 
     if HYBRID_PARAMETER["opt_hyperpara"] is True:
-        hybrid_best_params = optimize_hybrid(hybrid_params, train_loader, val_loader, device)
+        hybrid_best_params = optimize_hybrid(hybrid_params, train_loader, val_loader, test_loader, device)
     else:
         hybrid_best_params = hybrid_params
 
@@ -156,14 +153,13 @@ if __name__ == "__main__":
 
 
     ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
-    logger.info("Training Hybrid(NLinear + CNN_NLinear) model")
+    logger.info("Training Hybrid model")
     ## Initialize Hybrid model
     hybrid_model = HybridModel(
-        nlinear_model=nlinear_model,
-        cnn_nlinear_model=cnn_nlinear_model,
-        num_heads=hybrid_best_params["num_heads"],
+        # nlinear_model=nlinear_model,
+        # cnn_nlinear_model=cnn_nlinear_model,
+        models=[nlinear_model, dlinear_model, dnlinear_model, cnn_nlinear_model],
         window_size=hybrid_best_params["window_size"],
-        forecast_size=hybrid_best_params["forecast_size"],
         dropout_rate=hybrid_best_params["dropout_rate"],
         logger=logger,
     ).to(device)
@@ -199,3 +195,4 @@ if __name__ == "__main__":
     END_TIME = datetime.now()
     logger.info('main.py Elapsed time: {!s}'.format(END_TIME - ST_TIME))
     exit(0)
+    
