@@ -30,8 +30,8 @@ HYBRID_PARAMETER = {
         "dropout_rate": hp.uniform("dropout_rate", 0, 0.5),
     },
     "default_space": {
-        "conv_kernel_size": 21,
-        "conv_filters": 32,
+        "conv_kernel_size": 25, # 21,
+        "conv_filters": 48, # 32,
         "dropout_rate": 0.3,
     },
     "window_size": 336,
