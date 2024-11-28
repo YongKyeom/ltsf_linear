@@ -133,7 +133,7 @@ class DLinearModel(nn.Module):
         """
         criterion = nn.MSELoss()
         optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=1e-5)
-        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=patience // 2, verbose=True)
+        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 2, verbose=True)
 
         best_val_loss = float("inf")
         patience_counter = 0
@@ -362,9 +362,9 @@ class DNLinearModel(nn.Module):
         val_loader: Optional[DataLoader],
         test_loader: Optional[DataLoader],
         device: torch.device,
-        epochs: int = 50,
-        lr: float = 0.001,
-        patience: int = 10,
+        epochs: int = 100,
+        lr: float = 0.005,
+        patience: int = 15,
         best_model_path = "./result/best_model__dnlinear.pth"
     ):
         """
@@ -379,7 +379,7 @@ class DNLinearModel(nn.Module):
         """
         criterion = nn.MSELoss()
         optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=1e-5)
-        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=patience // 2, verbose=True)
+        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 2, verbose=True)
 
         best_val_loss = float("inf")
         patience_counter = 0
