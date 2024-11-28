@@ -8,7 +8,7 @@ DATE_COL_NM = "date"
 ## Y컬럼 이름
 TARGET_COL_NM = "OT"
 ## SEED Number
-SEED_NUM = 2024
+SEED_NUM = 1000
 
 ## NLinear 모델 Parameter
 NLINEAR_PARAMETER = {
@@ -23,15 +23,15 @@ NLINEAR_PARAMETER = {
 }
 ## Hybrid 모델 Parameter
 HYBRID_PARAMETER = {
-    "opt_hyperpara": True,
+    "opt_hyperpara": False,
     "space": {
         "conv_kernel_size": hp.quniform("conv_kernel_size", 16, 64, 4),
         "conv_filters": hp.quniform("conv_filters", 16, 64, 4),
         "dropout_rate": hp.quniform("dropout_rate", 0.1, 0.3, 0.1),
     },
     "default_space": {
-        "conv_kernel_size": 25, # 21,
-        "conv_filters": 48, # 32,
+        "conv_kernel_size": 44, # 21,
+        "conv_filters": 28, # 32,
         "dropout_rate": 0.3,
     },
     "window_size": 336,
