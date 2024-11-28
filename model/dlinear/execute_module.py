@@ -4,11 +4,13 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
+
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
 
 from utils.metrics import metric
+
 
 class moving_avg(nn.Module):
     """
@@ -26,6 +28,7 @@ class moving_avg(nn.Module):
         x = torch.cat([front, x, end], dim=1)
         x = self.avg(x.permute(0, 2, 1))
         x = x.permute(0, 2, 1)
+        
         return x
 
 
@@ -40,6 +43,7 @@ class series_decomp(nn.Module):
     def forward(self, x):
         moving_mean = self.moving_avg(x)
         res = x - moving_mean
+        
         return res, moving_mean
 
 class DLinearModel(nn.Module):
@@ -467,7 +471,7 @@ class DNLinearModel(nn.Module):
 
         return prediction_result
     
-    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger):
+    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger) -> pd.DataFrame:
         
         preds = []
         trues = []
@@ -487,7 +491,7 @@ class DNLinearModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[DNLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}')
+        logger.info(f'[DNLinear Score] MSE: {mse:.4f}, MAE: {mae:.4f}, MAPE: {mape:.4f}')
         
         pred_result = pd.DataFrame(
             {

@@ -4,6 +4,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
+
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional
@@ -179,7 +180,7 @@ class NLinearModel(nn.Module):
 
         return prediction_result
     
-    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger):
+    def final_predict(self, pred_data, pred_loader: Optional[DataLoader], device: torch.device, logger: logging.Logger) -> pd.DataFrame:
         
         preds = []
         trues = []
@@ -199,7 +200,7 @@ class NLinearModel(nn.Module):
         trues = np.concatenate(trues, axis=0)
         
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        logger.info(f'[NLinear Score] MSE:{mse:.4f}, MAE:{mae:.4f}, MAPE: {mape:.4f}')
+        logger.info(f'[NLinear Score] MSE: {mse:.4f}, MAE: {mae:.4f}, MAPE: {mape:.4f}')
         
         pred_result = pd.DataFrame(
             {
