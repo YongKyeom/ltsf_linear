@@ -88,7 +88,7 @@ class NLinearModel(nn.Module):
         """
         criterion = nn.MSELoss()
         optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=1e-5)
-        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 2, verbose=True)
+        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 5, verbose=True)
 
         best_val_loss = float("inf")
         patience_counter = 0
