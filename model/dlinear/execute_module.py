@@ -118,7 +118,7 @@ class DLinearModel(nn.Module):
         device: torch.device,
         epochs: int = 100,
         lr: float = 0.005,
-        patience: int = 15,
+        patience: int = 30,
         best_model_path = "./result/best_model__dlinear.pth"
     ):
         """
@@ -364,7 +364,7 @@ class DNLinearModel(nn.Module):
         device: torch.device,
         epochs: int = 100,
         lr: float = 0.005,
-        patience: int = 15,
+        patience: int = 30,
         best_model_path = "./result/best_model__dnlinear.pth"
     ):
         """

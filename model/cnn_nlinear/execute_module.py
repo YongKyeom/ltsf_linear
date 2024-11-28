@@ -140,7 +140,7 @@ class CNN_NLinear(nn.Module):
         device: torch.device,
         epochs: int = 100,
         lr: float = 0.005,
-        patience: int = 15,
+        patience: int = 30,
         best_model_path = "./result/best_model__cnn_ninear.pth"
     ):
         criterion = nn.MSELoss()
