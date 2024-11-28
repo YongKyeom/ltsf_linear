@@ -12,6 +12,7 @@ from typing import Dict, Any
 from common.metrics import compute_mse
 from config.config import SEED_NUM
 
+
 def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, test_loader, device) -> float:
     """
     NLinear모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
@@ -106,6 +107,10 @@ def optimize_cnn_nlinear(space: Dict[str, Any], train_loader, val_loader, test_l
         early_stop_fn=no_progress_loss(30)
     )
 
+    best['conv_filters'] = max(int(best['conv_filters']), 3)
+    best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
+    best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
+
     return best
 
 
@@ -169,5 +174,9 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
         early_stop_fn=no_progress_loss(30)
     )
+
+    best['conv_filters'] = max(int(best['conv_filters']), 3)
+    best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
+    best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
 
     return best
