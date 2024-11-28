@@ -38,12 +38,12 @@ if __name__ == "__main__":
     LOG_PATH = "./logs/"
     if not os.path.exists(LOG_PATH):
         os.makedirs(LOG_PATH)
-    LOGFILE_NM = "nLinear_hybrid_experiment_log"
+    LOGFILE_NM = "ltsf_linear_experiment_log"
 
     ## Define Logger
     logger = Logger(path=LOG_PATH, name=LOGFILE_NM, date=CREATED_TIME).logger
 
-    logger.info("NLinear, CNN_NLiear Hybrid is Start")
+    logger.info("NLinear, DLinear, NDLinear, CNN_NLiear, Stacking(Hybrid) model is Start")
 
     
     ## ------------------------------------ Load Data ------------------------------------ ##
