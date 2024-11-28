@@ -104,14 +104,14 @@ class CNN_NLinear(nn.Module):
         x_input = x
 
         # Positional enconding for Conv1D
-        x = x + self.positional_encoding(x.size(1), x.size(2)).to(x.device)
+        # x = x + self.positional_encoding(x.size(1), x.size(2)).to(x.device)
 
         # Permute to [batch, feature_size, window_size]
         x = x.permute(0, 2, 1)
 
         # First and only convolution block
         x = self.dropout1(torch.relu(self.bn1(self.conv1(x))))
-
+        
         # Pooling layer to condense information
         x = self.pool(x)
 
@@ -120,7 +120,7 @@ class CNN_NLinear(nn.Module):
 
         # Linear formation for conv filters
         x = self.dropout2(self.bn2(self.linear(x)))
-
+        
         # Residual connection
         x = x + x_input
 
@@ -145,7 +145,7 @@ class CNN_NLinear(nn.Module):
     ):
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-5)
-        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 2, verbose=True)
+        scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 5, verbose=True)
 
         best_val_loss = float("inf")
         patience_counter = 0
