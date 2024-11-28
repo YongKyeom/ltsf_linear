@@ -9,7 +9,6 @@ from model.cnn_nlinear.execute_module import CNN_NLinear
 from model.hybrid.execute_module import HybridModel
 from typing import Dict, Any
 
-from common.metrics import compute_mse
 from config.config import SEED_NUM
 
 
@@ -22,7 +21,7 @@ def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, test_loa
         forecast_size=params["forecast_size"],
         individual=params["individual"],
     ).to(device)
-    model.train_model(train_loader, val_loader, test_loader, device)
+    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
     
     # Validation RMSE calculation
     criterion = nn.MSELoss()
@@ -72,7 +71,7 @@ def objective_cnn_nlinear(params: Dict[str, Any], train_loader, val_loader, test
         in_channels=params["in_channels"],
         dropout_rate=min(max(params["dropout_rate"], 0), 0.5)
     ).to(device)
-    model.train_model(train_loader, val_loader, test_loader, device)
+    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
 
     # Validation RMSE calculation
     criterion = nn.MSELoss()
@@ -140,7 +139,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, test_load
         window_size=params["window_size"],
         dropout_rate=params["dropout_rate"]
     ).to(device)
-    model.train_model(train_loader, val_loader, test_loader, device)
+    model.train_model(train_loader, val_loader, test_loader, device, params['epochs'], params['learning_rate'])
 
     # Validation RMSE calculation
     criterion = nn.MSELoss()
