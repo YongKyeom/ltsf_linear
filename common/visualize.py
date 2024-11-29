@@ -24,6 +24,7 @@ def plot_predictions(
     """
     num_windows = len(date_list)
     fig, axes = plt.subplots(num_windows, 1, figsize=(10, 5 * num_windows), sharex=False)
+    plt.style.use('ggplot')
     
     if num_windows == 1:
         axes = [axes]
@@ -37,7 +38,7 @@ def plot_predictions(
         ax.plot(date_list[i][-forecast_size:], true_list[i], label='True', color='black')
         
         for model, pred_list in predictions.items():
-            ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'{model}', color=model_colors[model])
+            ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'model', color=model_colors[model])
         
         ax.legend()
         ax.set_title(f'Window {i+1}')
