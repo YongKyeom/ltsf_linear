@@ -3,10 +3,14 @@ import numpy as np
 import pandas as pd
 import os
 import torch
+import warnings
+
 from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import StandardScaler
 from utils.timefeatures import time_features
-import warnings
+from typing import Tuple, List
+from sklearn.preprocessing import MinMaxScaler
+
 
 warnings.filterwarnings("ignore")
 
@@ -396,3 +400,39 @@ class Dataset_Pred(Dataset):
 
     def inverse_transform(self, data):
         return self.scaler.inverse_transform(data)
+
+
+def create_windows_for_inference(
+    raw_data: pd.DataFrame, 
+    window_size: int = 336, 
+    forecast_size: int = 96, 
+    value_col_nm: str = 'OT', 
+    scaler: MinMaxScaler = None
+) -> Tuple[list, list, list]:
+    """
+    예측모델의 추론을 위한 Window를 생성하는 함수
+    Date, Input Window, Forecast Window를 생성하여 반환함
+    최소한 Window size + Forecast size 만큼의 데이터가 존재해야함
+
+    Args:
+        raw_data (pd.DataFrame): The raw data with a datetime index.
+        window_size (int): The size of the input window.
+        forecast_size (int): The size of the forecast window.
+
+    Returns:
+        Tuple[list, list, list]:: A tuple containing lists of dates, input windows, and forecast windows.
+    """
+    raw_data_window = raw_data.copy()
+    if scaler is not None:
+        raw_data_window[value_col_nm] = scaler.transform(raw_data[value_col_nm].values.reshape(-1, 1))
+    
+    date_ls, x_ls, y_ls = [], [], []
+    for i in range(len(raw_data_window) - window_size - forecast_size + 1):
+        # Date List
+        date_ls.append(raw_data_window.index[i:i+window_size+forecast_size].values)
+        # X List(Window)
+        x_ls.append(raw_data_window.iloc[i:i+window_size].values)
+        # Y List(Forecast)
+        y_ls.append(raw_data_window.iloc[i+window_size:i+window_size+forecast_size].values)
+    
+    return date_ls, x_ls, y_ls
