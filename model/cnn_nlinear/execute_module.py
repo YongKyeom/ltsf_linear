@@ -141,7 +141,7 @@ class CNN_NLinear(nn.Module):
         epochs: int = 100,
         lr: float = 0.005,
         patience: int = 30,
-        best_model_path = "./result/best_model__cnn_ninear.pth"
+        best_model_path = "./result/best_model__cnn_nlinear.pth"
     ):
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-5)
