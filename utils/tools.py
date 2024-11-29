@@ -5,6 +5,9 @@ import torch
 import time
 import random
 
+from typing import List
+
+
 plt.switch_backend("agg")
 
 
@@ -148,3 +151,29 @@ def test_params_flop(model, x_shape):
         # print('Params:' + params)
         print("{:<30}  {:<8}".format("Computational complexity: ", macs))
         print("{:<30}  {:<8}".format("Number of parameters: ", params))
+
+
+def generate_predictions(model, x_list: list, forecast_size: int = 96) -> List[np.ndarray]:
+    """
+    Generate predictions using the provided model and raw data.
+
+    Args:
+        model (torch.nn.Module): The PyTorch model used for predictions.
+        x_list (list): The list of input data.
+        forecast_size (int): The size of the forecast window.
+        
+    Returns:
+        List[np.ndarray]: A list of predictions with the same dimension as the forecast windows.
+    """
+    # Convert lists to tensors
+    x_tensor = torch.tensor(x_list, dtype=torch.float32)
+    
+    # Generate predictions
+    model.eval()
+    with torch.no_grad():
+        predictions = model(x_tensor)
+    
+    # Ensure predictions have the same shape as y_ls
+    predictions = predictions.view(-1, forecast_size).numpy()
+    
+    return predictions.tolist()
