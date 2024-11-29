@@ -38,7 +38,7 @@ def plot_predictions(
         ax.plot(date_list[i][-forecast_size:], true_list[i], label='True', color='black')
         
         for model, pred_list in predictions.items():
-            ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'model', color=model_colors[model])
+            ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'{model}', color=model_colors[model])
         
         ax.legend()
         ax.set_title(f'Window {i+1}')
