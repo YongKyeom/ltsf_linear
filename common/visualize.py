@@ -40,7 +40,7 @@ def plot_predictions(
         for model, pred_list in predictions.items():
             ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'{model}', color=model_colors[model])
         
-        ax.legend()
+        ax.legend(loc = 'upper left')
         ax.set_title(f'Window {i+1}')
         ax.set_ylabel('Value')
         ax.tick_params(axis='x', rotation=45)
