@@ -23,7 +23,7 @@ def plot_predictions(
     The function creates a subplot for each window and plots the true values, train values, and predictions for each model.
     """
     num_windows = len(date_list)
-    fig, axes = plt.subplots(num_windows, 1, figsize=(14, 7 * num_windows), sharex=True)
+    fig, axes = plt.subplots(num_windows, 1, figsize=(10, 5 * num_windows), sharex=False)
     
     if num_windows == 1:
         axes = [axes]
@@ -43,7 +43,7 @@ def plot_predictions(
         ax.set_title(f'Window {i+1}')
         ax.set_ylabel('Value')
         ax.tick_params(axis='x', rotation=45)
-
+        
         # Set x-ticks to show only a subset of dates
         ax.set_xticks(date_list[i][::int(len(date_list[i]) / 10)])
     
