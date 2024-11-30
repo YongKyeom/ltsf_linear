@@ -25,14 +25,12 @@ NLINEAR_PARAMETER = {
 HYBRID_PARAMETER = {
     "opt_hyperpara": True,
     "space": {
-        "conv_kernel_size": hp.quniform("conv_kernel_size", 10, 32, 2),
-        "conv_filters": hp.quniform("conv_filters", 3, 12, 1),
-        "pool_size": hp.choice("pool_size", [1, 2, 3]),
+        "conv_kernel_size": hp.quniform("conv_kernel_size", 16, 50, 2),
+        "conv_filters": hp.quniform("conv_filters", 15, 60, 3),
     },
     "default_space": {
-        "conv_kernel_size": 25, # 21,
-        "conv_filters": 5, # 32,
-        "pool_size": 1,
+        "conv_kernel_size": 21,
+        "conv_filters": 32,
     },
     "window_size": 336,
     "forecast_size": 96,

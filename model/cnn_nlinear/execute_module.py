@@ -21,7 +21,6 @@ class CNN_NLinear(nn.Module):
         forecast_size: int = 96,
         conv_kernel_size: int = 10,
         conv_filters: int = 32,
-        pool_size: int = 8,
         in_channels: int = 1,
         dropout_rate: float = 0.1,
         logger: logging.Logger = None,
@@ -41,10 +40,10 @@ class CNN_NLinear(nn.Module):
         self.bn1 = nn.BatchNorm1d(conv_filters)
         self.dropout1 = nn.Dropout(dropout_rate)
         # Adaptive pooling layer to condense information
-        self.pool = nn.AdaptiveAvgPool1d(pool_size)
+        self.pool = nn.AdaptiveAvgPool1d(window_size)
 
         # Linear layer to map convolution filters to raw input dim
-        self.linear = nn.Linear(pool_size * conv_filters, window_size)
+        self.linear = nn.Linear(conv_filters, in_channels)
         # To prevent overfitting, batch normalize, dropout
         self.bn2 = nn.BatchNorm1d(window_size)
         self.dropout2 = nn.Dropout(dropout_rate)
@@ -111,16 +110,19 @@ class CNN_NLinear(nn.Module):
         x = x.permute(0, 2, 1)
 
         # First and only convolution block
-        x = self.dropout1(nn.Tanh(self.bn1(self.conv1(x))))
+        x = self.dropout1(torch.tanh(self.bn1(self.conv1(x))))
         
         # Pooling layer to condense information
         x = self.pool(x)
 
-        # Flatten and apply linear layer
-        x = self.dropout2(nn.Tanh(self.bn2(self.linear(x.view(x.size(0), -1)))))
+        # Permute to [batch, window_size, feature_size]
+        x = x.permute(0, 2, 1)
+
+        # Linear formation for conv filters
+        x = self.dropout2(torch.tanh(self.bn2(self.linear(x))))
         
         # Residual connection
-        x = x.unsqueeze(-1) + x_input
+        x = x + x_input
 
         # Final linear layer to ensure output has correct dimensions
         x = self.final_linear(x.permute(0, 2, 1)).permute(0, 2, 1)
