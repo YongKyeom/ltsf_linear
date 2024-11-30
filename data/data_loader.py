@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from utils.timefeatures import time_features
 from typing import Tuple, List
 from sklearn.preprocessing import MinMaxScaler
+from darts.datasets import ETTh1Dataset
 
 
 warnings.filterwarnings("ignore")
