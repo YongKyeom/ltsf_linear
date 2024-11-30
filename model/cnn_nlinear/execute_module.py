@@ -111,13 +111,13 @@ class CNN_NLinear(nn.Module):
         x = x.permute(0, 2, 1)
 
         # First and only convolution block
-        x = self.dropout1(torch.relu(self.bn1(self.conv1(x))))
+        x = self.dropout1(nn.Tanh(self.bn1(self.conv1(x))))
         
         # Pooling layer to condense information
         x = self.pool(x)
 
         # Flatten and apply linear layer
-        x = self.dropout2(torch.relu(self.bn2(self.linear(x.view(x.size(0), -1)))))
+        x = self.dropout2(nn.Tanh(self.bn2(self.linear(x.view(x.size(0), -1)))))
         
         # Residual connection
         x = x.unsqueeze(-1) + x_input
