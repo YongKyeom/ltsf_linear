@@ -1,0 +1,358 @@
+2024-11-30 16:48:43,508 <module> Line 46 [INFO]: NLinear, DLinear, NDLinear, CNN_NLiear, Stacking(Hybrid) model is Start
+2024-11-30 16:48:43,586 <module> Line 78 [INFO]: Training NLinear model
+2024-11-30 16:48:44,232 train_model Line 131 [INFO]: Epoch [1/500], Train Loss: 0.1760, Val Loss: 0.0995, Test Loss: 0.0538
+2024-11-30 16:48:44,233 train_model Line 143 [INFO]: Save best model
+2024-11-30 16:48:44,328 train_model Line 131 [INFO]: Epoch [2/500], Train Loss: 0.1676, Val Loss: 0.1013, Test Loss: 0.0570
+2024-11-30 16:48:44,423 train_model Line 131 [INFO]: Epoch [3/500], Train Loss: 0.1654, Val Loss: 0.0966, Test Loss: 0.0565
+2024-11-30 16:48:44,424 train_model Line 143 [INFO]: Save best model
+2024-11-30 16:48:44,517 train_model Line 131 [INFO]: Epoch [4/500], Train Loss: 0.1690, Val Loss: 0.1047, Test Loss: 0.0673
+2024-11-30 16:48:44,610 train_model Line 131 [INFO]: Epoch [5/500], Train Loss: 0.1643, Val Loss: 0.1019, Test Loss: 0.0554
+2024-11-30 16:48:44,699 train_model Line 131 [INFO]: Epoch [6/500], Train Loss: 0.1691, Val Loss: 0.0983, Test Loss: 0.0608
+2024-11-30 16:48:44,789 train_model Line 131 [INFO]: Epoch [7/500], Train Loss: 0.1663, Val Loss: 0.1128, Test Loss: 0.0695
+2024-11-30 16:48:44,877 train_model Line 131 [INFO]: Epoch [8/500], Train Loss: 0.1665, Val Loss: 0.1054, Test Loss: 0.0720
+2024-11-30 16:48:45,023 train_model Line 131 [INFO]: Epoch [9/500], Train Loss: 0.1628, Val Loss: 0.0990, Test Loss: 0.0601
+2024-11-30 16:48:45,109 train_model Line 131 [INFO]: Epoch [10/500], Train Loss: 0.1664, Val Loss: 0.1000, Test Loss: 0.0626
+2024-11-30 16:48:45,197 train_model Line 131 [INFO]: Epoch [11/500], Train Loss: 0.1450, Val Loss: 0.0898, Test Loss: 0.0545
+2024-11-30 16:48:45,198 train_model Line 143 [INFO]: Save best model
+2024-11-30 16:48:45,286 train_model Line 131 [INFO]: Epoch [12/500], Train Loss: 0.1432, Val Loss: 0.0919, Test Loss: 0.0531
+2024-11-30 16:48:45,377 train_model Line 131 [INFO]: Epoch [13/500], Train Loss: 0.1436, Val Loss: 0.0903, Test Loss: 0.0539
+2024-11-30 16:48:45,468 train_model Line 131 [INFO]: Epoch [14/500], Train Loss: 0.1435, Val Loss: 0.0906, Test Loss: 0.0542
+2024-11-30 16:48:45,559 train_model Line 131 [INFO]: Epoch [15/500], Train Loss: 0.1438, Val Loss: 0.0924, Test Loss: 0.0525
+2024-11-30 16:48:45,652 train_model Line 131 [INFO]: Epoch [16/500], Train Loss: 0.1438, Val Loss: 0.0906, Test Loss: 0.0525
+2024-11-30 16:48:45,746 train_model Line 131 [INFO]: Epoch [17/500], Train Loss: 0.1442, Val Loss: 0.0906, Test Loss: 0.0539
+2024-11-30 16:48:45,835 train_model Line 131 [INFO]: Epoch [18/500], Train Loss: 0.1440, Val Loss: 0.0909, Test Loss: 0.0528
+2024-11-30 16:48:45,923 train_model Line 131 [INFO]: Epoch [19/500], Train Loss: 0.1415, Val Loss: 0.0901, Test Loss: 0.0531
+2024-11-30 16:48:46,014 train_model Line 131 [INFO]: Epoch [20/500], Train Loss: 0.1415, Val Loss: 0.0901, Test Loss: 0.0535
+2024-11-30 16:48:46,103 train_model Line 131 [INFO]: Epoch [21/500], Train Loss: 0.1414, Val Loss: 0.0899, Test Loss: 0.0537
+2024-11-30 16:48:46,191 train_model Line 131 [INFO]: Epoch [22/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0529
+2024-11-30 16:48:46,278 train_model Line 131 [INFO]: Epoch [23/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0527
+2024-11-30 16:48:46,372 train_model Line 131 [INFO]: Epoch [24/500], Train Loss: 0.1414, Val Loss: 0.0902, Test Loss: 0.0536
+2024-11-30 16:48:46,469 train_model Line 131 [INFO]: Epoch [25/500], Train Loss: 0.1415, Val Loss: 0.0902, Test Loss: 0.0534
+2024-11-30 16:48:46,559 train_model Line 131 [INFO]: Epoch [26/500], Train Loss: 0.1412, Val Loss: 0.0900, Test Loss: 0.0531
+2024-11-30 16:48:46,648 train_model Line 131 [INFO]: Epoch [27/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:46,735 train_model Line 131 [INFO]: Epoch [28/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:46,823 train_model Line 131 [INFO]: Epoch [29/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:46,911 train_model Line 131 [INFO]: Epoch [30/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:46,999 train_model Line 131 [INFO]: Epoch [31/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0532
+2024-11-30 16:48:47,088 train_model Line 131 [INFO]: Epoch [32/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:47,179 train_model Line 131 [INFO]: Epoch [33/500], Train Loss: 0.1411, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:47,268 train_model Line 131 [INFO]: Epoch [34/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:48:47,358 train_model Line 131 [INFO]: Epoch [35/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,448 train_model Line 131 [INFO]: Epoch [36/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,602 train_model Line 131 [INFO]: Epoch [37/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,696 train_model Line 131 [INFO]: Epoch [38/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,786 train_model Line 131 [INFO]: Epoch [39/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,875 train_model Line 131 [INFO]: Epoch [40/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,963 train_model Line 131 [INFO]: Epoch [41/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:48:47,963 train_model Line 150 [INFO]: Early stopping triggered.
+2024-11-30 16:48:47,966 <module> Line 94 [INFO]: Training DLinear model
+2024-11-30 16:48:48,141 train_model Line 176 [INFO]: Epoch [1/500], Train Loss: 0.1989, Val Loss: 0.1024, Test Loss: 0.0987
+2024-11-30 16:48:48,142 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:48,356 train_model Line 176 [INFO]: Epoch [2/500], Train Loss: 0.1803, Val Loss: 0.0990, Test Loss: 0.0966
+2024-11-30 16:48:48,357 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:48,542 train_model Line 176 [INFO]: Epoch [3/500], Train Loss: 0.1850, Val Loss: 0.1014, Test Loss: 0.1130
+2024-11-30 16:48:48,716 train_model Line 176 [INFO]: Epoch [4/500], Train Loss: 0.1897, Val Loss: 0.1079, Test Loss: 0.1491
+2024-11-30 16:48:48,880 train_model Line 176 [INFO]: Epoch [5/500], Train Loss: 0.1793, Val Loss: 0.1070, Test Loss: 0.1257
+2024-11-30 16:48:49,045 train_model Line 176 [INFO]: Epoch [6/500], Train Loss: 0.1846, Val Loss: 0.1016, Test Loss: 0.1161
+2024-11-30 16:48:49,221 train_model Line 176 [INFO]: Epoch [7/500], Train Loss: 0.1836, Val Loss: 0.1102, Test Loss: 0.1919
+2024-11-30 16:48:49,385 train_model Line 176 [INFO]: Epoch [8/500], Train Loss: 0.1825, Val Loss: 0.0992, Test Loss: 0.0896
+2024-11-30 16:48:49,542 train_model Line 176 [INFO]: Epoch [9/500], Train Loss: 0.1989, Val Loss: 0.1008, Test Loss: 0.0748
+2024-11-30 16:48:49,706 train_model Line 176 [INFO]: Epoch [10/500], Train Loss: 0.1465, Val Loss: 0.0939, Test Loss: 0.0720
+2024-11-30 16:48:49,707 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:49,894 train_model Line 176 [INFO]: Epoch [11/500], Train Loss: 0.1434, Val Loss: 0.0909, Test Loss: 0.0575
+2024-11-30 16:48:49,895 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:50,062 train_model Line 176 [INFO]: Epoch [12/500], Train Loss: 0.1432, Val Loss: 0.0910, Test Loss: 0.0590
+2024-11-30 16:48:50,224 train_model Line 176 [INFO]: Epoch [13/500], Train Loss: 0.1422, Val Loss: 0.0908, Test Loss: 0.0602
+2024-11-30 16:48:50,225 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:50,404 train_model Line 176 [INFO]: Epoch [14/500], Train Loss: 0.1441, Val Loss: 0.0915, Test Loss: 0.0642
+2024-11-30 16:48:50,567 train_model Line 176 [INFO]: Epoch [15/500], Train Loss: 0.1431, Val Loss: 0.0917, Test Loss: 0.0662
+2024-11-30 16:48:50,744 train_model Line 176 [INFO]: Epoch [16/500], Train Loss: 0.1432, Val Loss: 0.0923, Test Loss: 0.0750
+2024-11-30 16:48:50,923 train_model Line 176 [INFO]: Epoch [17/500], Train Loss: 0.1436, Val Loss: 0.0920, Test Loss: 0.0661
+2024-11-30 16:48:51,098 train_model Line 176 [INFO]: Epoch [18/500], Train Loss: 0.1438, Val Loss: 0.0913, Test Loss: 0.0548
+2024-11-30 16:48:51,275 train_model Line 176 [INFO]: Epoch [19/500], Train Loss: 0.1434, Val Loss: 0.0947, Test Loss: 0.0933
+2024-11-30 16:48:51,464 train_model Line 176 [INFO]: Epoch [20/500], Train Loss: 0.1445, Val Loss: 0.0904, Test Loss: 0.0601
+2024-11-30 16:48:51,464 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:51,640 train_model Line 176 [INFO]: Epoch [21/500], Train Loss: 0.1448, Val Loss: 0.0931, Test Loss: 0.0876
+2024-11-30 16:48:51,825 train_model Line 176 [INFO]: Epoch [22/500], Train Loss: 0.1447, Val Loss: 0.0933, Test Loss: 0.0819
+2024-11-30 16:48:51,981 train_model Line 176 [INFO]: Epoch [23/500], Train Loss: 0.1432, Val Loss: 0.0912, Test Loss: 0.0612
+2024-11-30 16:48:52,146 train_model Line 176 [INFO]: Epoch [24/500], Train Loss: 0.1443, Val Loss: 0.0919, Test Loss: 0.0581
+2024-11-30 16:48:52,321 train_model Line 176 [INFO]: Epoch [25/500], Train Loss: 0.1438, Val Loss: 0.0911, Test Loss: 0.0572
+2024-11-30 16:48:52,505 train_model Line 176 [INFO]: Epoch [26/500], Train Loss: 0.1437, Val Loss: 0.0915, Test Loss: 0.0653
+2024-11-30 16:48:52,715 train_model Line 176 [INFO]: Epoch [27/500], Train Loss: 0.1438, Val Loss: 0.0921, Test Loss: 0.0726
+2024-11-30 16:48:52,895 train_model Line 176 [INFO]: Epoch [28/500], Train Loss: 0.1391, Val Loss: 0.0899, Test Loss: 0.0542
+2024-11-30 16:48:52,896 train_model Line 188 [INFO]: Save best model
+2024-11-30 16:48:53,126 train_model Line 176 [INFO]: Epoch [29/500], Train Loss: 0.1389, Val Loss: 0.0909, Test Loss: 0.0622
+2024-11-30 16:48:53,288 train_model Line 176 [INFO]: Epoch [30/500], Train Loss: 0.1389, Val Loss: 0.0902, Test Loss: 0.0560
+2024-11-30 16:48:53,461 train_model Line 176 [INFO]: Epoch [31/500], Train Loss: 0.1387, Val Loss: 0.0903, Test Loss: 0.0560
+2024-11-30 16:48:53,626 train_model Line 176 [INFO]: Epoch [32/500], Train Loss: 0.1387, Val Loss: 0.0908, Test Loss: 0.0603
+2024-11-30 16:48:53,822 train_model Line 176 [INFO]: Epoch [33/500], Train Loss: 0.1388, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:54,005 train_model Line 176 [INFO]: Epoch [34/500], Train Loss: 0.1388, Val Loss: 0.0909, Test Loss: 0.0620
+2024-11-30 16:48:54,158 train_model Line 176 [INFO]: Epoch [35/500], Train Loss: 0.1388, Val Loss: 0.0909, Test Loss: 0.0614
+2024-11-30 16:48:54,365 train_model Line 176 [INFO]: Epoch [36/500], Train Loss: 0.1383, Val Loss: 0.0907, Test Loss: 0.0599
+2024-11-30 16:48:54,515 train_model Line 176 [INFO]: Epoch [37/500], Train Loss: 0.1383, Val Loss: 0.0904, Test Loss: 0.0577
+2024-11-30 16:48:54,663 train_model Line 176 [INFO]: Epoch [38/500], Train Loss: 0.1382, Val Loss: 0.0906, Test Loss: 0.0589
+2024-11-30 16:48:54,877 train_model Line 176 [INFO]: Epoch [39/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0583
+2024-11-30 16:48:55,066 train_model Line 176 [INFO]: Epoch [40/500], Train Loss: 0.1383, Val Loss: 0.0905, Test Loss: 0.0582
+2024-11-30 16:48:55,218 train_model Line 176 [INFO]: Epoch [41/500], Train Loss: 0.1383, Val Loss: 0.0904, Test Loss: 0.0576
+2024-11-30 16:48:55,366 train_model Line 176 [INFO]: Epoch [42/500], Train Loss: 0.1383, Val Loss: 0.0905, Test Loss: 0.0586
+2024-11-30 16:48:55,514 train_model Line 176 [INFO]: Epoch [43/500], Train Loss: 0.1381, Val Loss: 0.0905, Test Loss: 0.0584
+2024-11-30 16:48:55,668 train_model Line 176 [INFO]: Epoch [44/500], Train Loss: 0.1381, Val Loss: 0.0905, Test Loss: 0.0582
+2024-11-30 16:48:55,820 train_model Line 176 [INFO]: Epoch [45/500], Train Loss: 0.1381, Val Loss: 0.0905, Test Loss: 0.0581
+2024-11-30 16:48:55,968 train_model Line 176 [INFO]: Epoch [46/500], Train Loss: 0.1379, Val Loss: 0.0905, Test Loss: 0.0581
+2024-11-30 16:48:56,117 train_model Line 176 [INFO]: Epoch [47/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0581
+2024-11-30 16:48:56,270 train_model Line 176 [INFO]: Epoch [48/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0581
+2024-11-30 16:48:56,443 train_model Line 176 [INFO]: Epoch [49/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:56,624 train_model Line 176 [INFO]: Epoch [50/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:56,809 train_model Line 176 [INFO]: Epoch [51/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:56,957 train_model Line 176 [INFO]: Epoch [52/500], Train Loss: 0.1382, Val Loss: 0.0904, Test Loss: 0.0580
+2024-11-30 16:48:57,105 train_model Line 176 [INFO]: Epoch [53/500], Train Loss: 0.1381, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:57,271 train_model Line 176 [INFO]: Epoch [54/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:57,422 train_model Line 176 [INFO]: Epoch [55/500], Train Loss: 0.1383, Val Loss: 0.0905, Test Loss: 0.0580
+2024-11-30 16:48:57,576 train_model Line 176 [INFO]: Epoch [56/500], Train Loss: 0.1382, Val Loss: 0.0905, Test Loss: 0.0581
+2024-11-30 16:48:57,728 train_model Line 176 [INFO]: Epoch [57/500], Train Loss: 0.1381, Val Loss: 0.0904, Test Loss: 0.0581
+2024-11-30 16:48:57,880 train_model Line 176 [INFO]: Epoch [58/500], Train Loss: 0.1382, Val Loss: 0.0904, Test Loss: 0.0581
+2024-11-30 16:48:57,881 train_model Line 195 [INFO]: Early stopping triggered.
+2024-11-30 16:48:57,882 <module> Line 109 [INFO]: Training DLinear + NLinear model
+2024-11-30 16:48:58,037 train_model Line 422 [INFO]: Epoch [1/500], Train Loss: 0.1873, Val Loss: 0.1012, Test Loss: 0.0571
+2024-11-30 16:48:58,038 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:48:58,192 train_model Line 422 [INFO]: Epoch [2/500], Train Loss: 0.1732, Val Loss: 0.1517, Test Loss: 0.0781
+2024-11-30 16:48:58,348 train_model Line 422 [INFO]: Epoch [3/500], Train Loss: 0.1824, Val Loss: 0.1142, Test Loss: 0.0704
+2024-11-30 16:48:58,565 train_model Line 422 [INFO]: Epoch [4/500], Train Loss: 0.1753, Val Loss: 0.1038, Test Loss: 0.0618
+2024-11-30 16:48:58,808 train_model Line 422 [INFO]: Epoch [5/500], Train Loss: 0.1827, Val Loss: 0.1077, Test Loss: 0.0592
+2024-11-30 16:48:59,147 train_model Line 422 [INFO]: Epoch [6/500], Train Loss: 0.1823, Val Loss: 0.1049, Test Loss: 0.0612
+2024-11-30 16:48:59,628 train_model Line 422 [INFO]: Epoch [7/500], Train Loss: 0.1729, Val Loss: 0.0984, Test Loss: 0.0631
+2024-11-30 16:48:59,630 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:48:59,891 train_model Line 422 [INFO]: Epoch [8/500], Train Loss: 0.1741, Val Loss: 0.1090, Test Loss: 0.0652
+2024-11-30 16:49:00,168 train_model Line 422 [INFO]: Epoch [9/500], Train Loss: 0.1792, Val Loss: 0.1071, Test Loss: 0.0597
+2024-11-30 16:49:00,405 train_model Line 422 [INFO]: Epoch [10/500], Train Loss: 0.1774, Val Loss: 0.1098, Test Loss: 0.0592
+2024-11-30 16:49:00,634 train_model Line 422 [INFO]: Epoch [11/500], Train Loss: 0.1776, Val Loss: 0.1073, Test Loss: 0.0588
+2024-11-30 16:49:00,874 train_model Line 422 [INFO]: Epoch [12/500], Train Loss: 0.1754, Val Loss: 0.1048, Test Loss: 0.0566
+2024-11-30 16:49:01,073 train_model Line 422 [INFO]: Epoch [13/500], Train Loss: 0.1714, Val Loss: 0.1002, Test Loss: 0.0591
+2024-11-30 16:49:01,254 train_model Line 422 [INFO]: Epoch [14/500], Train Loss: 0.1796, Val Loss: 0.1026, Test Loss: 0.0599
+2024-11-30 16:49:01,416 train_model Line 422 [INFO]: Epoch [15/500], Train Loss: 0.1473, Val Loss: 0.0923, Test Loss: 0.0548
+2024-11-30 16:49:01,417 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:01,613 train_model Line 422 [INFO]: Epoch [16/500], Train Loss: 0.1447, Val Loss: 0.0923, Test Loss: 0.0541
+2024-11-30 16:49:01,614 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:01,790 train_model Line 422 [INFO]: Epoch [17/500], Train Loss: 0.1443, Val Loss: 0.0929, Test Loss: 0.0572
+2024-11-30 16:49:01,949 train_model Line 422 [INFO]: Epoch [18/500], Train Loss: 0.1443, Val Loss: 0.0924, Test Loss: 0.0533
+2024-11-30 16:49:02,143 train_model Line 422 [INFO]: Epoch [19/500], Train Loss: 0.1446, Val Loss: 0.0905, Test Loss: 0.0550
+2024-11-30 16:49:02,144 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:02,324 train_model Line 422 [INFO]: Epoch [20/500], Train Loss: 0.1445, Val Loss: 0.0915, Test Loss: 0.0550
+2024-11-30 16:49:02,479 train_model Line 422 [INFO]: Epoch [21/500], Train Loss: 0.1447, Val Loss: 0.0907, Test Loss: 0.0547
+2024-11-30 16:49:02,640 train_model Line 422 [INFO]: Epoch [22/500], Train Loss: 0.1451, Val Loss: 0.0915, Test Loss: 0.0542
+2024-11-30 16:49:02,795 train_model Line 422 [INFO]: Epoch [23/500], Train Loss: 0.1445, Val Loss: 0.0910, Test Loss: 0.0542
+2024-11-30 16:49:02,954 train_model Line 422 [INFO]: Epoch [24/500], Train Loss: 0.1450, Val Loss: 0.0933, Test Loss: 0.0544
+2024-11-30 16:49:03,111 train_model Line 422 [INFO]: Epoch [25/500], Train Loss: 0.1457, Val Loss: 0.0913, Test Loss: 0.0563
+2024-11-30 16:49:03,270 train_model Line 422 [INFO]: Epoch [26/500], Train Loss: 0.1446, Val Loss: 0.0908, Test Loss: 0.0529
+2024-11-30 16:49:03,422 train_model Line 422 [INFO]: Epoch [27/500], Train Loss: 0.1416, Val Loss: 0.0902, Test Loss: 0.0535
+2024-11-30 16:49:03,423 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:03,599 train_model Line 422 [INFO]: Epoch [28/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0533
+2024-11-30 16:49:03,600 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:03,758 train_model Line 422 [INFO]: Epoch [29/500], Train Loss: 0.1415, Val Loss: 0.0901, Test Loss: 0.0531
+2024-11-30 16:49:03,916 train_model Line 422 [INFO]: Epoch [30/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0534
+2024-11-30 16:49:03,916 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:04,076 train_model Line 422 [INFO]: Epoch [31/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0531
+2024-11-30 16:49:04,234 train_model Line 422 [INFO]: Epoch [32/500], Train Loss: 0.1413, Val Loss: 0.0900, Test Loss: 0.0534
+2024-11-30 16:49:04,390 train_model Line 422 [INFO]: Epoch [33/500], Train Loss: 0.1414, Val Loss: 0.0903, Test Loss: 0.0526
+2024-11-30 16:49:04,553 train_model Line 422 [INFO]: Epoch [34/500], Train Loss: 0.1415, Val Loss: 0.0899, Test Loss: 0.0529
+2024-11-30 16:49:04,553 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:04,713 train_model Line 422 [INFO]: Epoch [35/500], Train Loss: 0.1415, Val Loss: 0.0901, Test Loss: 0.0530
+2024-11-30 16:49:04,903 train_model Line 422 [INFO]: Epoch [36/500], Train Loss: 0.1414, Val Loss: 0.0902, Test Loss: 0.0532
+2024-11-30 16:49:05,111 train_model Line 422 [INFO]: Epoch [37/500], Train Loss: 0.1411, Val Loss: 0.0902, Test Loss: 0.0532
+2024-11-30 16:49:05,286 train_model Line 422 [INFO]: Epoch [38/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0528
+2024-11-30 16:49:05,446 train_model Line 422 [INFO]: Epoch [39/500], Train Loss: 0.1412, Val Loss: 0.0899, Test Loss: 0.0529
+2024-11-30 16:49:05,447 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:05,618 train_model Line 422 [INFO]: Epoch [40/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0536
+2024-11-30 16:49:05,792 train_model Line 422 [INFO]: Epoch [41/500], Train Loss: 0.1414, Val Loss: 0.0902, Test Loss: 0.0525
+2024-11-30 16:49:05,988 train_model Line 422 [INFO]: Epoch [42/500], Train Loss: 0.1416, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:06,170 train_model Line 422 [INFO]: Epoch [43/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0537
+2024-11-30 16:49:06,330 train_model Line 422 [INFO]: Epoch [44/500], Train Loss: 0.1414, Val Loss: 0.0899, Test Loss: 0.0525
+2024-11-30 16:49:06,331 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:06,489 train_model Line 422 [INFO]: Epoch [45/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0539
+2024-11-30 16:49:06,644 train_model Line 422 [INFO]: Epoch [46/500], Train Loss: 0.1413, Val Loss: 0.0897, Test Loss: 0.0527
+2024-11-30 16:49:06,645 train_model Line 434 [INFO]: Save best model
+2024-11-30 16:49:06,804 train_model Line 422 [INFO]: Epoch [47/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0534
+2024-11-30 16:49:06,959 train_model Line 422 [INFO]: Epoch [48/500], Train Loss: 0.1414, Val Loss: 0.0900, Test Loss: 0.0534
+2024-11-30 16:49:07,128 train_model Line 422 [INFO]: Epoch [49/500], Train Loss: 0.1414, Val Loss: 0.0898, Test Loss: 0.0530
+2024-11-30 16:49:07,299 train_model Line 422 [INFO]: Epoch [50/500], Train Loss: 0.1415, Val Loss: 0.0899, Test Loss: 0.0532
+2024-11-30 16:49:07,455 train_model Line 422 [INFO]: Epoch [51/500], Train Loss: 0.1412, Val Loss: 0.0901, Test Loss: 0.0534
+2024-11-30 16:49:07,614 train_model Line 422 [INFO]: Epoch [52/500], Train Loss: 0.1414, Val Loss: 0.0898, Test Loss: 0.0529
+2024-11-30 16:49:07,772 train_model Line 422 [INFO]: Epoch [53/500], Train Loss: 0.1414, Val Loss: 0.0901, Test Loss: 0.0524
+2024-11-30 16:49:07,982 train_model Line 422 [INFO]: Epoch [54/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:08,177 train_model Line 422 [INFO]: Epoch [55/500], Train Loss: 0.1410, Val Loss: 0.0900, Test Loss: 0.0529
+2024-11-30 16:49:08,348 train_model Line 422 [INFO]: Epoch [56/500], Train Loss: 0.1409, Val Loss: 0.0900, Test Loss: 0.0531
+2024-11-30 16:49:08,522 train_model Line 422 [INFO]: Epoch [57/500], Train Loss: 0.1409, Val Loss: 0.0900, Test Loss: 0.0530
+2024-11-30 16:49:08,684 train_model Line 422 [INFO]: Epoch [58/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:08,870 train_model Line 422 [INFO]: Epoch [59/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:09,062 train_model Line 422 [INFO]: Epoch [60/500], Train Loss: 0.1407, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:09,231 train_model Line 422 [INFO]: Epoch [61/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:09,417 train_model Line 422 [INFO]: Epoch [62/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:09,592 train_model Line 422 [INFO]: Epoch [63/500], Train Loss: 0.1410, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:09,755 train_model Line 422 [INFO]: Epoch [64/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:09,914 train_model Line 422 [INFO]: Epoch [65/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:10,075 train_model Line 422 [INFO]: Epoch [66/500], Train Loss: 0.1406, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:10,234 train_model Line 422 [INFO]: Epoch [67/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0530
+2024-11-30 16:49:10,399 train_model Line 422 [INFO]: Epoch [68/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:10,618 train_model Line 422 [INFO]: Epoch [69/500], Train Loss: 0.1406, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:10,790 train_model Line 422 [INFO]: Epoch [70/500], Train Loss: 0.1407, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:10,955 train_model Line 422 [INFO]: Epoch [71/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:11,120 train_model Line 422 [INFO]: Epoch [72/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:11,279 train_model Line 422 [INFO]: Epoch [73/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:11,458 train_model Line 422 [INFO]: Epoch [74/500], Train Loss: 0.1409, Val Loss: 0.0898, Test Loss: 0.0531
+2024-11-30 16:49:11,648 train_model Line 422 [INFO]: Epoch [75/500], Train Loss: 0.1409, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:11,819 train_model Line 422 [INFO]: Epoch [76/500], Train Loss: 0.1408, Val Loss: 0.0899, Test Loss: 0.0531
+2024-11-30 16:49:11,820 train_model Line 441 [INFO]: Early stopping triggered.
+2024-11-30 16:49:11,821 <module> Line 145 [INFO]: Training CNN_NLinear model
+2024-11-30 16:49:13,461 train_model Line 193 [INFO]: Epoch [1/500], Train Loss: 0.2381, Val Loss: 0.0944, Test Loss: 0.0552
+2024-11-30 16:49:13,462 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:15,094 train_model Line 193 [INFO]: Epoch [2/500], Train Loss: 0.1633, Val Loss: 0.0981, Test Loss: 0.0561
+2024-11-30 16:49:16,869 train_model Line 193 [INFO]: Epoch [3/500], Train Loss: 0.1646, Val Loss: 0.0951, Test Loss: 0.0565
+2024-11-30 16:49:18,505 train_model Line 193 [INFO]: Epoch [4/500], Train Loss: 0.1645, Val Loss: 0.0982, Test Loss: 0.0560
+2024-11-30 16:49:20,124 train_model Line 193 [INFO]: Epoch [5/500], Train Loss: 0.1644, Val Loss: 0.0938, Test Loss: 0.0559
+2024-11-30 16:49:20,125 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:21,930 train_model Line 193 [INFO]: Epoch [6/500], Train Loss: 0.1628, Val Loss: 0.0991, Test Loss: 0.0590
+2024-11-30 16:49:23,580 train_model Line 193 [INFO]: Epoch [7/500], Train Loss: 0.1625, Val Loss: 0.0939, Test Loss: 0.0557
+2024-11-30 16:49:25,189 train_model Line 193 [INFO]: Epoch [8/500], Train Loss: 0.1662, Val Loss: 0.0921, Test Loss: 0.0575
+2024-11-30 16:49:25,189 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:26,876 train_model Line 193 [INFO]: Epoch [9/500], Train Loss: 0.1666, Val Loss: 0.0984, Test Loss: 0.0574
+2024-11-30 16:49:28,662 train_model Line 193 [INFO]: Epoch [10/500], Train Loss: 0.1630, Val Loss: 0.0936, Test Loss: 0.0573
+2024-11-30 16:49:30,265 train_model Line 193 [INFO]: Epoch [11/500], Train Loss: 0.1632, Val Loss: 0.0948, Test Loss: 0.0566
+2024-11-30 16:49:31,895 train_model Line 193 [INFO]: Epoch [12/500], Train Loss: 0.1626, Val Loss: 0.0981, Test Loss: 0.0575
+2024-11-30 16:49:33,622 train_model Line 193 [INFO]: Epoch [13/500], Train Loss: 0.1660, Val Loss: 0.0971, Test Loss: 0.0536
+2024-11-30 16:49:35,248 train_model Line 193 [INFO]: Epoch [14/500], Train Loss: 0.1623, Val Loss: 0.0990, Test Loss: 0.0591
+2024-11-30 16:49:36,871 train_model Line 193 [INFO]: Epoch [15/500], Train Loss: 0.1625, Val Loss: 0.0942, Test Loss: 0.0558
+2024-11-30 16:49:38,622 train_model Line 193 [INFO]: Epoch [16/500], Train Loss: 0.1500, Val Loss: 0.0912, Test Loss: 0.0529
+2024-11-30 16:49:38,623 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:40,281 train_model Line 193 [INFO]: Epoch [17/500], Train Loss: 0.1455, Val Loss: 0.0909, Test Loss: 0.0534
+2024-11-30 16:49:40,281 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:41,923 train_model Line 193 [INFO]: Epoch [18/500], Train Loss: 0.1434, Val Loss: 0.0908, Test Loss: 0.0533
+2024-11-30 16:49:41,924 train_model Line 205 [INFO]: Save best model
+2024-11-30 16:49:43,711 train_model Line 193 [INFO]: Epoch [19/500], Train Loss: 0.1429, Val Loss: 0.0916, Test Loss: 0.0533
+2024-11-30 16:49:45,394 train_model Line 193 [INFO]: Epoch [20/500], Train Loss: 0.1421, Val Loss: 0.0929, Test Loss: 0.0532
+2024-11-30 16:49:47,098 train_model Line 193 [INFO]: Epoch [21/500], Train Loss: 0.1419, Val Loss: 0.0910, Test Loss: 0.0536
+2024-11-30 16:49:48,861 train_model Line 193 [INFO]: Epoch [22/500], Train Loss: 0.1419, Val Loss: 0.0921, Test Loss: 0.0525
+2024-11-30 16:49:50,520 train_model Line 193 [INFO]: Epoch [23/500], Train Loss: 0.1414, Val Loss: 0.0918, Test Loss: 0.0530
+2024-11-30 16:49:52,169 train_model Line 193 [INFO]: Epoch [24/500], Train Loss: 0.1409, Val Loss: 0.0911, Test Loss: 0.0534
+2024-11-30 16:49:53,839 train_model Line 193 [INFO]: Epoch [25/500], Train Loss: 0.1410, Val Loss: 0.0922, Test Loss: 0.0533
+2024-11-30 16:49:55,575 train_model Line 193 [INFO]: Epoch [26/500], Train Loss: 0.1394, Val Loss: 0.0921, Test Loss: 0.0539
+2024-11-30 16:49:57,238 train_model Line 193 [INFO]: Epoch [27/500], Train Loss: 0.1392, Val Loss: 0.0927, Test Loss: 0.0544
+2024-11-30 16:49:58,871 train_model Line 193 [INFO]: Epoch [28/500], Train Loss: 0.1392, Val Loss: 0.0916, Test Loss: 0.0540
+2024-11-30 16:50:00,597 train_model Line 193 [INFO]: Epoch [29/500], Train Loss: 0.1388, Val Loss: 0.0916, Test Loss: 0.0539
+2024-11-30 16:50:02,316 train_model Line 193 [INFO]: Epoch [30/500], Train Loss: 0.1389, Val Loss: 0.0921, Test Loss: 0.0541
+2024-11-30 16:50:04,098 train_model Line 193 [INFO]: Epoch [31/500], Train Loss: 0.1384, Val Loss: 0.0922, Test Loss: 0.0543
+2024-11-30 16:50:05,930 train_model Line 193 [INFO]: Epoch [32/500], Train Loss: 0.1387, Val Loss: 0.0924, Test Loss: 0.0540
+2024-11-30 16:50:07,664 train_model Line 193 [INFO]: Epoch [33/500], Train Loss: 0.1383, Val Loss: 0.0923, Test Loss: 0.0543
+2024-11-30 16:50:09,355 train_model Line 193 [INFO]: Epoch [34/500], Train Loss: 0.1381, Val Loss: 0.0929, Test Loss: 0.0541
+2024-11-30 16:50:11,151 train_model Line 193 [INFO]: Epoch [35/500], Train Loss: 0.1382, Val Loss: 0.0925, Test Loss: 0.0542
+2024-11-30 16:50:12,876 train_model Line 193 [INFO]: Epoch [36/500], Train Loss: 0.1390, Val Loss: 0.0924, Test Loss: 0.0542
+2024-11-30 16:50:14,838 train_model Line 193 [INFO]: Epoch [37/500], Train Loss: 0.1381, Val Loss: 0.0923, Test Loss: 0.0542
+2024-11-30 16:50:16,902 train_model Line 193 [INFO]: Epoch [38/500], Train Loss: 0.1387, Val Loss: 0.0919, Test Loss: 0.0538
+2024-11-30 16:50:18,843 train_model Line 193 [INFO]: Epoch [39/500], Train Loss: 0.1380, Val Loss: 0.0921, Test Loss: 0.0540
+2024-11-30 16:50:20,716 train_model Line 193 [INFO]: Epoch [40/500], Train Loss: 0.1383, Val Loss: 0.0923, Test Loss: 0.0545
+2024-11-30 16:50:22,780 train_model Line 193 [INFO]: Epoch [41/500], Train Loss: 0.1384, Val Loss: 0.0919, Test Loss: 0.0540
+2024-11-30 16:50:24,667 train_model Line 193 [INFO]: Epoch [42/500], Train Loss: 0.1386, Val Loss: 0.0929, Test Loss: 0.0541
+2024-11-30 16:50:26,445 train_model Line 193 [INFO]: Epoch [43/500], Train Loss: 0.1378, Val Loss: 0.0921, Test Loss: 0.0542
+2024-11-30 16:50:28,374 train_model Line 193 [INFO]: Epoch [44/500], Train Loss: 0.1386, Val Loss: 0.0919, Test Loss: 0.0542
+2024-11-30 16:50:30,244 train_model Line 193 [INFO]: Epoch [45/500], Train Loss: 0.1379, Val Loss: 0.0920, Test Loss: 0.0541
+2024-11-30 16:50:32,038 train_model Line 193 [INFO]: Epoch [46/500], Train Loss: 0.1375, Val Loss: 0.0919, Test Loss: 0.0543
+2024-11-30 16:50:33,978 train_model Line 193 [INFO]: Epoch [47/500], Train Loss: 0.1382, Val Loss: 0.0923, Test Loss: 0.0542
+2024-11-30 16:50:35,834 train_model Line 193 [INFO]: Epoch [48/500], Train Loss: 0.1386, Val Loss: 0.0920, Test Loss: 0.0543
+2024-11-30 16:50:35,835 train_model Line 212 [INFO]: Early stopping triggered.
+2024-11-30 16:50:35,836 <module> Line 161 [INFO]: Training Hybrid model
+2024-11-30 16:50:41,423 train_model Line 151 [INFO]: Epoch [1/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:50:41,424 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:50:47,055 train_model Line 151 [INFO]: Epoch [2/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:50:52,497 train_model Line 151 [INFO]: Epoch [3/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:50:52,498 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:50:58,038 train_model Line 151 [INFO]: Epoch [4/500], Train Loss: 0.1395, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:51:03,497 train_model Line 151 [INFO]: Epoch [5/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:51:09,015 train_model Line 151 [INFO]: Epoch [6/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:51:14,465 train_model Line 151 [INFO]: Epoch [7/500], Train Loss: 0.1392, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:51:20,148 train_model Line 151 [INFO]: Epoch [8/500], Train Loss: 0.1396, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:51:26,137 train_model Line 151 [INFO]: Epoch [9/500], Train Loss: 0.1393, Val Loss: 0.0895, Test Loss: 0.0532
+2024-11-30 16:51:31,854 train_model Line 151 [INFO]: Epoch [10/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:51:37,578 train_model Line 151 [INFO]: Epoch [11/500], Train Loss: 0.1397, Val Loss: 0.0895, Test Loss: 0.0532
+2024-11-30 16:51:44,217 train_model Line 151 [INFO]: Epoch [12/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:51:44,218 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:51:50,372 train_model Line 151 [INFO]: Epoch [13/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:51:56,160 train_model Line 151 [INFO]: Epoch [14/500], Train Loss: 0.1395, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:52:01,909 train_model Line 151 [INFO]: Epoch [15/500], Train Loss: 0.1395, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:52:07,776 train_model Line 151 [INFO]: Epoch [16/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:52:13,347 train_model Line 151 [INFO]: Epoch [17/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:52:19,271 train_model Line 151 [INFO]: Epoch [18/500], Train Loss: 0.1392, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:52:19,272 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:52:25,087 train_model Line 151 [INFO]: Epoch [19/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:52:30,799 train_model Line 151 [INFO]: Epoch [20/500], Train Loss: 0.1392, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:52:37,555 train_model Line 151 [INFO]: Epoch [21/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:52:43,662 train_model Line 151 [INFO]: Epoch [22/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:52:49,773 train_model Line 151 [INFO]: Epoch [23/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:52:55,855 train_model Line 151 [INFO]: Epoch [24/500], Train Loss: 0.1395, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:53:01,765 train_model Line 151 [INFO]: Epoch [25/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:53:07,653 train_model Line 151 [INFO]: Epoch [26/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:53:13,150 train_model Line 151 [INFO]: Epoch [27/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:53:18,895 train_model Line 151 [INFO]: Epoch [28/500], Train Loss: 0.1391, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:53:24,481 train_model Line 151 [INFO]: Epoch [29/500], Train Loss: 0.1395, Val Loss: 0.0895, Test Loss: 0.0532
+2024-11-30 16:53:30,020 train_model Line 151 [INFO]: Epoch [30/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:53:35,621 train_model Line 151 [INFO]: Epoch [31/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:53:41,172 train_model Line 151 [INFO]: Epoch [32/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:53:46,803 train_model Line 151 [INFO]: Epoch [33/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:53:52,396 train_model Line 151 [INFO]: Epoch [34/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:53:57,975 train_model Line 151 [INFO]: Epoch [35/500], Train Loss: 0.1392, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:54:03,550 train_model Line 151 [INFO]: Epoch [36/500], Train Loss: 0.1395, Val Loss: 0.0895, Test Loss: 0.0532
+2024-11-30 16:54:09,104 train_model Line 151 [INFO]: Epoch [37/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:54:14,673 train_model Line 151 [INFO]: Epoch [38/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:54:20,243 train_model Line 151 [INFO]: Epoch [39/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:54:25,746 train_model Line 151 [INFO]: Epoch [40/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:54:31,337 train_model Line 151 [INFO]: Epoch [41/500], Train Loss: 0.1393, Val Loss: 0.0892, Test Loss: 0.0531
+2024-11-30 16:54:31,337 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:54:36,972 train_model Line 151 [INFO]: Epoch [42/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:54:42,557 train_model Line 151 [INFO]: Epoch [43/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:54:48,152 train_model Line 151 [INFO]: Epoch [44/500], Train Loss: 0.1396, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:54:53,756 train_model Line 151 [INFO]: Epoch [45/500], Train Loss: 0.1395, Val Loss: 0.0896, Test Loss: 0.0532
+2024-11-30 16:54:59,323 train_model Line 151 [INFO]: Epoch [46/500], Train Loss: 0.1395, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:55:04,937 train_model Line 151 [INFO]: Epoch [47/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:55:10,512 train_model Line 151 [INFO]: Epoch [48/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:55:16,123 train_model Line 151 [INFO]: Epoch [49/500], Train Loss: 0.1392, Val Loss: 0.0892, Test Loss: 0.0531
+2024-11-30 16:55:21,708 train_model Line 151 [INFO]: Epoch [50/500], Train Loss: 0.1394, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:55:27,245 train_model Line 151 [INFO]: Epoch [51/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:55:32,871 train_model Line 151 [INFO]: Epoch [52/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:55:38,963 train_model Line 151 [INFO]: Epoch [53/500], Train Loss: 0.1395, Val Loss: 0.0892, Test Loss: 0.0532
+2024-11-30 16:55:38,964 train_model Line 163 [INFO]: Save best model
+2024-11-30 16:55:44,983 train_model Line 151 [INFO]: Epoch [54/500], Train Loss: 0.1391, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:55:50,575 train_model Line 151 [INFO]: Epoch [55/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:55:56,208 train_model Line 151 [INFO]: Epoch [56/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:56:01,805 train_model Line 151 [INFO]: Epoch [57/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:56:07,414 train_model Line 151 [INFO]: Epoch [58/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:56:13,024 train_model Line 151 [INFO]: Epoch [59/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:56:18,791 train_model Line 151 [INFO]: Epoch [60/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:56:24,385 train_model Line 151 [INFO]: Epoch [61/500], Train Loss: 0.1391, Val Loss: 0.0895, Test Loss: 0.0531
+2024-11-30 16:56:29,982 train_model Line 151 [INFO]: Epoch [62/500], Train Loss: 0.1395, Val Loss: 0.0892, Test Loss: 0.0532
+2024-11-30 16:56:35,557 train_model Line 151 [INFO]: Epoch [63/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:56:41,576 train_model Line 151 [INFO]: Epoch [64/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:56:47,409 train_model Line 151 [INFO]: Epoch [65/500], Train Loss: 0.1392, Val Loss: 0.0895, Test Loss: 0.0532
+2024-11-30 16:56:53,383 train_model Line 151 [INFO]: Epoch [66/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:56:59,342 train_model Line 151 [INFO]: Epoch [67/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:57:05,208 train_model Line 151 [INFO]: Epoch [68/500], Train Loss: 0.1392, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:57:10,994 train_model Line 151 [INFO]: Epoch [69/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:57:16,707 train_model Line 151 [INFO]: Epoch [70/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:57:22,804 train_model Line 151 [INFO]: Epoch [71/500], Train Loss: 0.1392, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:57:28,542 train_model Line 151 [INFO]: Epoch [72/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:57:34,178 train_model Line 151 [INFO]: Epoch [73/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:57:39,824 train_model Line 151 [INFO]: Epoch [74/500], Train Loss: 0.1395, Val Loss: 0.0892, Test Loss: 0.0531
+2024-11-30 16:57:45,452 train_model Line 151 [INFO]: Epoch [75/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:57:51,148 train_model Line 151 [INFO]: Epoch [76/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:57:56,739 train_model Line 151 [INFO]: Epoch [77/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0531
+2024-11-30 16:58:02,275 train_model Line 151 [INFO]: Epoch [78/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0531
+2024-11-30 16:58:07,907 train_model Line 151 [INFO]: Epoch [79/500], Train Loss: 0.1393, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:58:13,498 train_model Line 151 [INFO]: Epoch [80/500], Train Loss: 0.1394, Val Loss: 0.0895, Test Loss: 0.0531
+2024-11-30 16:58:19,107 train_model Line 151 [INFO]: Epoch [81/500], Train Loss: 0.1394, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:58:24,730 train_model Line 151 [INFO]: Epoch [82/500], Train Loss: 0.1393, Val Loss: 0.0894, Test Loss: 0.0532
+2024-11-30 16:58:30,348 train_model Line 151 [INFO]: Epoch [83/500], Train Loss: 0.1395, Val Loss: 0.0893, Test Loss: 0.0532
+2024-11-30 16:58:30,348 train_model Line 171 [INFO]: Early stopping triggered.
+2024-11-30 16:58:31,256 <module> Line 180 [INFO]: Evaluating models.
+2024-11-30 16:58:31,277 final_predict Line 203 [INFO]: [NLinear Score] MSE: 0.0546, MAE: 0.1797, MAPE: 0.1443
+2024-11-30 16:58:31,388 final_predict Line 248 [INFO]: [DLinear Score] MSE: 0.0542, MAE:0.1775, MAPE: 0.1415
+2024-11-30 16:58:31,492 final_predict Line 494 [INFO]: [DNLinear Score] MSE: 0.0527, MAE: 0.1763, MAPE: 0.1420
+2024-11-30 16:58:31,706 final_predict Line 265 [INFO]: [CNN + NLinear Score] MSE: 0.0539, MAE: 0.1804, MAPE: 0.1467
+2024-11-30 16:58:32,501 final_predict Line 224 [INFO]: [Hybrid model Score] MSE: 0.0532, MAE: 0.1774, MAPE: 0.1428
+2024-11-30 16:58:32,572 <module> Line 195 [INFO]: main.py Elapsed time: 0:09:49.064048
