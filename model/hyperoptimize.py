@@ -12,6 +12,10 @@ from typing import Dict, Any
 from config.config import SEED_NUM
 
 
+MAX_TRIALS_CNT = 100
+EARLY_STOPPING_CNT = 30
+
+
 def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, test_loader, device) -> float:
     """
     NLinear모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
@@ -50,10 +54,10 @@ def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, test_loade
         fn=lambda params: objective_nlinear(params, train_loader, val_loader, test_loader, device),
         space=space,
         algo=tpe.suggest,
-        max_evals=100,
+        max_evals=MAX_TRIALS_CNT,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(EARLY_STOPPING_CNT)
     )
 
     return best
@@ -101,10 +105,10 @@ def optimize_cnn_nlinear(space: Dict[str, Any], train_loader, val_loader, test_l
         fn=lambda params: objective_cnn_nlinear(params, train_loader, val_loader, test_loader, device),
         space=space,
         algo=tpe.suggest,
-        max_evals=100,
+        max_evals=MAX_TRIALS_CNT,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(EARLY_STOPPING_CNT)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
@@ -171,10 +175,10 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader
         fn=lambda params: objective_hybrid(params, train_loader, val_loader, test_loader, device),
         space=space,
         algo=tpe.suggest,
-        max_evals=100,
+        max_evals=MAX_TRIALS_CNT,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(30)
+        early_stop_fn=no_progress_loss(EARLY_STOPPING_CNT)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
