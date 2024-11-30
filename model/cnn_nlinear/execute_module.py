@@ -93,7 +93,7 @@ class CNN_NLinear(nn.Module):
         
         return pe.unsqueeze(0) 
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, return_x_flag: bool = False) -> torch.Tensor:
         x = x.float()
         
         # Distribution shift removal
@@ -122,15 +122,18 @@ class CNN_NLinear(nn.Module):
         x = self.dropout2(torch.tanh(self.bn2(self.linear(x))))
         
         # Residual connection
-        x = x + x_input
+        x_modify = x + x_input
 
         # Final linear layer to ensure output has correct dimensions
-        x = self.final_linear(x.permute(0, 2, 1)).permute(0, 2, 1)
+        output = self.final_linear(x_modify.permute(0, 2, 1)).permute(0, 2, 1)
 
         # Adding back the removed shift
-        x = x + seq_last
+        output = output + seq_last
         
-        return x
+        if return_x_flag is True:
+            return output, x_modify + seq_last
+        else:
+            return output
 
     def train_model(
         self,

@@ -177,3 +177,27 @@ def generate_predictions(model, x_list: list, forecast_size: int = 96) -> List[n
     predictions = predictions.view(-1, forecast_size).numpy()
     
     return predictions.tolist()
+
+def generate_cnn_modify_x(model, x_list: list, window_size: int = 336) -> List[np.ndarray]:
+    """
+    Generate CNN_NLinear modified x using the provided model and raw data.
+
+    Args:
+        model (torch.nn.Module): The PyTorch model used for predictions.
+        x_list (list): The list of input data.
+        
+    Returns:
+        List[np.ndarray]: A list of modified x with CNN_NLinear.
+    """
+    # Convert lists to tensors
+    x_tensor = torch.tensor(x_list, dtype=torch.float32)
+    
+    # Generate predictions
+    model.eval()
+    with torch.no_grad():
+        _, modify_x = model(x_tensor, return_x_flag = True)
+    
+    # Ensure predictions have the same shape as y_ls
+    modify_x = modify_x.view(-1, window_size).numpy()
+    
+    return modify_x.tolist()
