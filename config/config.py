@@ -23,16 +23,16 @@ NLINEAR_PARAMETER = {
 }
 ## Hybrid 모델 Parameter
 HYBRID_PARAMETER = {
-    "opt_hyperpara": False,
+    "opt_hyperpara": True,
     "space": {
         "conv_kernel_size": hp.quniform("conv_kernel_size", 16, 64, 4),
         "conv_filters": hp.quniform("conv_filters", 16, 64, 4),
-        "dropout_rate": hp.quniform("dropout_rate", 0.1, 0.3, 0.1),
+        "pool_size": hp.choice("pool_size", [4, 8, 12, 16, 20]),
     },
     "default_space": {
         "conv_kernel_size": 44, # 21,
         "conv_filters": 28, # 32,
-        "dropout_rate": 0.3,
+        "pool_size": 8,
     },
     "window_size": 336,
     "forecast_size": 96,
@@ -41,4 +41,5 @@ HYBRID_PARAMETER = {
     "learning_rate": 0.005,
     "epochs": 500,
     "batch_size": 32,
+    "dropout_rate": 0.1,
 }

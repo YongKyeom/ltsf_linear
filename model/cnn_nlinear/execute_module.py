@@ -21,6 +21,7 @@ class CNN_NLinear(nn.Module):
         forecast_size: int = 96,
         conv_kernel_size: int = 10,
         conv_filters: int = 32,
+        pool_size: int = 8,
         in_channels: int = 1,
         dropout_rate: float = 0.1,
         logger: logging.Logger = None,
@@ -40,17 +41,14 @@ class CNN_NLinear(nn.Module):
         self.bn1 = nn.BatchNorm1d(conv_filters)
         self.dropout1 = nn.Dropout(dropout_rate)
         # Adaptive pooling layer to condense information
-        self.pool = nn.AdaptiveAvgPool1d(window_size)
+        self.pool = nn.AdaptiveAvgPool1d(pool_size)
 
         # Linear layer to map convolution filters to raw input dim
-        self.linear = nn.Linear(conv_filters, in_channels)
-        # To prevent overfitting, batch normalize, dropout
-        self.bn2 = nn.BatchNorm1d(window_size)
-        self.dropout2 = nn.Dropout(dropout_rate)
+        self.linear = nn.Linear(pool_size * conv_filters, window_size)
 
-        # Final linear layer to reduce output to single channel for each forecast step
+        # Final Linear layer to preict the forecast
         self.final_linear = nn.Linear(window_size, forecast_size)
-
+        
         # Weight initialization
         self.apply(self._init_weights)
 
@@ -115,14 +113,11 @@ class CNN_NLinear(nn.Module):
         # Pooling layer to condense information
         x = self.pool(x)
 
-        # Permute to [batch, window_size, feature_size]
-        x = x.permute(0, 2, 1)
-
-        # Linear formation for conv filters
-        x = self.dropout2(self.bn2(self.linear(x)))
+        # Flatten and apply linear layer
+        x = self.linear(x.view(x.size(0), -1))
         
         # Residual connection
-        x = x + x_input
+        x = x.unsqueeze(-1) + x_input
 
         # Final linear layer to ensure output has correct dimensions
         x = self.final_linear(x.permute(0, 2, 1)).permute(0, 2, 1)

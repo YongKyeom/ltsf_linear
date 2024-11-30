@@ -68,6 +68,7 @@ def objective_cnn_nlinear(params: Dict[str, Any], train_loader, val_loader, test
         forecast_size=params["forecast_size"],
         conv_kernel_size=max(int(params["conv_kernel_size"]), 3),
         conv_filters=max(int(params["conv_filters"]), 3),
+        pool_size=max(int(params["pool_size"]), 3),
         in_channels=params["in_channels"],
         dropout_rate=min(max(params["dropout_rate"], 0), 0.5)
     ).to(device)
@@ -109,6 +110,7 @@ def optimize_cnn_nlinear(space: Dict[str, Any], train_loader, val_loader, test_l
     best['conv_filters'] = max(int(best['conv_filters']), 3)
     best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
     best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
+    best['pool_size'] = max(int(best['pool_size']), 3)
 
     return best
 
@@ -129,6 +131,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, test_load
         forecast_size=params["forecast_size"],
         conv_kernel_size=max(int(params["conv_kernel_size"]), 3),
         conv_filters=max(int(params["conv_filters"]), 3),
+        pool_size=max(int(params["pool_size"]), 3),
         in_channels=params["in_channels"],
         dropout_rate=max(params["dropout_rate"], 0),
     ).to(device)
@@ -177,5 +180,6 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader
     best['conv_filters'] = max(int(best['conv_filters']), 3)
     best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
     best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
+    best['pool_size'] = max(int(best['pool_size']), 3)
 
     return best
