@@ -8,9 +8,9 @@
 *.json
 
 # ignore logs folder & log files
-# logs/
-# *.log
-# *.txt
+logs/
+*.log
+*.txt
 
 # ignore all .pdf
 *.pdf
