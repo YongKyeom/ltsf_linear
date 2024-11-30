@@ -53,7 +53,7 @@ def optimize_nlinear(space: Dict[str, Any], train_loader, val_loader, test_loade
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(15)
+        early_stop_fn=no_progress_loss(30)
     )
 
     return best
@@ -104,13 +104,13 @@ def optimize_cnn_nlinear(space: Dict[str, Any], train_loader, val_loader, test_l
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(15)
+        early_stop_fn=no_progress_loss(30)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
     best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
     best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
-    best['pool_size'] = max(int(best['pool_size']), 3)
+    best['pool_size'] = max(int(best['pool_size']), 1)
 
     return best
 
@@ -174,12 +174,12 @@ def optimize_hybrid(space: Dict[str, Any], train_loader, val_loader, test_loader
         max_evals=100,
         trials=trials,
         rstate=np.random.Generator(np.random.PCG64(SEED_NUM)),
-        early_stop_fn=no_progress_loss(15)
+        early_stop_fn=no_progress_loss(30)
     )
 
     best['conv_filters'] = max(int(best['conv_filters']), 3)
     best['conv_kernel_size'] = max(int(best['conv_kernel_size']), 3)
     best['dropout_rate'] = max(round(best['dropout_rate'], 2), 0)
-    best['pool_size'] = max(int(best['pool_size']), 3)
+    best['pool_size'] = max(int(best['pool_size']), 1)
 
     return best

@@ -149,6 +149,7 @@ if __name__ == "__main__":
         forecast_size=hybrid_best_params["forecast_size"],
         conv_kernel_size=hybrid_best_params["conv_kernel_size"],
         conv_filters=hybrid_best_params["conv_filters"],
+        pool_size=hybrid_best_params["pool_size"],
         in_channels=hybrid_best_params["in_channels"],
         dropout_rate=hybrid_best_params["dropout_rate"],
         logger=logger,

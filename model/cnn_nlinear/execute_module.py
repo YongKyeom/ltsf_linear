@@ -45,7 +45,10 @@ class CNN_NLinear(nn.Module):
 
         # Linear layer to map convolution filters to raw input dim
         self.linear = nn.Linear(pool_size * conv_filters, window_size)
-
+        # To prevent overfitting, batch normalize, dropout
+        self.bn2 = nn.BatchNorm1d(window_size)
+        self.dropout2 = nn.Dropout(dropout_rate)
+        
         # Final Linear layer to preict the forecast
         self.final_linear = nn.Linear(window_size, forecast_size)
         
@@ -114,7 +117,7 @@ class CNN_NLinear(nn.Module):
         x = self.pool(x)
 
         # Flatten and apply linear layer
-        x = self.linear(x.view(x.size(0), -1))
+        x = self.dropout2(torch.relu(self.bn2(self.linear(x.view(x.size(0), -1)))))
         
         # Residual connection
         x = x.unsqueeze(-1) + x_input
