@@ -10,16 +10,17 @@ from model.hybrid.execute_module import HybridModel
 from typing import Dict, Any
 
 from config.config import SEED_NUM
-
+from utils.tools import set_seed
 
 MAX_TRIALS_CNT = 100
-EARLY_STOPPING_CNT = 30
+EARLY_STOPPING_CNT = 100
 
 
 def objective_nlinear(params: Dict[str, Any], train_loader, val_loader, test_loader, device) -> float:
     """
     NLinear모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
     """
+    set_seed(SEED_NUM)
     model = NLinearModel(
         window_size=params["window_size"],
         forecast_size=params["forecast_size"],
@@ -67,6 +68,7 @@ def objective_cnn_nlinear(params: Dict[str, Any], train_loader, val_loader, test
     """
     CNN_NLinear모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
     """
+    set_seed(SEED_NUM)
     model = CNN_NLinear(
         window_size=params["window_size"],
         forecast_size=params["forecast_size"],
@@ -123,6 +125,7 @@ def objective_hybrid(params: Dict[str, Any], train_loader, val_loader, test_load
     """
     NLinear + CNN_NLinear 모델의 Hyper-paremter 최적화를 위한 fmin 목적함수
     """
+    set_seed(SEED_NUM)
     nlinear_model = NLinearModel(
         window_size=params["window_size"],
         forecast_size=params["forecast_size"],
