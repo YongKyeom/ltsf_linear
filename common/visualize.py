@@ -6,6 +6,7 @@ def plot_predictions(
     train_list: list,
     true_list: list,
     predictions: dict,
+    cnn_modiffy_x_list: list = None,
     window_size: int = 336, 
     forecast_size: int = 96
 ):
@@ -35,6 +36,8 @@ def plot_predictions(
     for i in range(num_windows):
         ax = axes[i]
         ax.plot(date_list[i][:window_size], train_list[i], label='Train', color='gray')
+        if cnn_modiffy_x_list is not None:
+            ax.plot(date_list[i][:window_size], cnn_modiffy_x_list[i], label='CNN Modify X', color='blue', linestyle='--', alpha=0.5)
         ax.plot(date_list[i][-forecast_size:], true_list[i], label='True', color='black')
         
         for model, pred_list in predictions.items():
