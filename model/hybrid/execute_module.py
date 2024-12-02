@@ -60,7 +60,7 @@ class HybridModel(nn.Module):
         for weight in self.value_weights:
             nn.init.xavier_uniform_(weight)
 
-    def forward(self, x):
+    def forward(self, x, return_weights_flag=False):
         x = x.float()
         
         # Model outputs
@@ -89,7 +89,10 @@ class HybridModel(nn.Module):
         # # Residual Connection
         # final_output = (1 - self.residual_weight) * final_output + self.residual_weight * sum(model_outputs) / self.num_models
         
-        return final_output
+        if return_weights_flag is True:
+            return final_output, weights
+        else:
+            return final_output
     
     def train_model(
         self,

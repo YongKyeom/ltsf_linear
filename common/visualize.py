@@ -7,6 +7,7 @@ def plot_predictions(
     true_list: list,
     predictions: dict,
     cnn_modiffy_x_list: list = None,
+    weight_list: list = None,
     window_size: int = 336, 
     forecast_size: int = 96
 ):
@@ -41,10 +42,19 @@ def plot_predictions(
         ax.plot(date_list[i][-forecast_size:], true_list[i], label='True', color='black')
         
         for model, pred_list in predictions.items():
-            ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'{model}', color=model_colors[model])
+            if pred_list is not None:
+                ax.plot(date_list[i][-forecast_size:], pred_list[i], label=f'{model}', color=model_colors[model])
         
         ax.legend(loc = 'upper left')
-        ax.set_title(f'Window {i+1}')
+        
+        title = f'Window {i+1}'
+        if weight_list is not None:
+            title += '\n Hybrid output = '
+            hybrid_equation_ls = []
+            for j, weight in enumerate(weight_list[i]):
+                hybrid_equation_ls += [f'{weight:.3f}*{list(predictions.keys())[j]}']
+            title += ' + '.join(hybrid_equation_ls)
+        ax.set_title(title)
         ax.set_ylabel('Value')
         ax.tick_params(axis='x', rotation=45)
         

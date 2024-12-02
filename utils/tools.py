@@ -153,7 +153,7 @@ def test_params_flop(model, x_shape):
         print("{:<30}  {:<8}".format("Number of parameters: ", params))
 
 
-def generate_predictions(model, x_list: list, forecast_size: int = 96) -> List[np.ndarray]:
+def generate_predictions(model, x_list: list, forecast_size: int = 96, return_weights_flag = False, base_model_cnt: int = 4) -> List[np.ndarray]:
     """
     Generate predictions using the provided model and raw data.
 
@@ -170,13 +170,25 @@ def generate_predictions(model, x_list: list, forecast_size: int = 96) -> List[n
     
     # Generate predictions
     model.eval()
+    weights_ls = []
     with torch.no_grad():
-        predictions = model(x_tensor)
+        if return_weights_flag is True:
+            predictions, weights = model(x_tensor, return_weights_flag)
+        else:
+            predictions = model(x_tensor)
     
     # Ensure predictions have the same shape as y_ls
     predictions = predictions.view(-1, forecast_size).numpy()
     
-    return predictions.tolist()
+    if return_weights_flag is True:
+        ## 모델별 Weights 리스트(nested list)로 변환
+        weights = weights.view(-1, len(x_list)).numpy()
+        weights = list(zip(*weights))
+        
+        return predictions.tolist(), weights
+    else:
+        return predictions.tolist() 
+    
 
 def generate_cnn_modify_x(model, x_list: list, window_size: int = 336) -> List[np.ndarray]:
     """
