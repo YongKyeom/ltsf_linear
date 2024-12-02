@@ -153,7 +153,7 @@ def test_params_flop(model, x_shape):
         print("{:<30}  {:<8}".format("Number of parameters: ", params))
 
 
-def generate_predictions(model, x_list: list, forecast_size: int = 96, return_weights_flag = False, base_model_cnt: int = 4) -> List[np.ndarray]:
+def generate_predictions(model, x_list: list, forecast_size: int = 96, return_weights_flag = False) -> List[np.ndarray]:
     """
     Generate predictions using the provided model and raw data.
 
