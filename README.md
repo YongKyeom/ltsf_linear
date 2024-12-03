@@ -71,7 +71,7 @@ ltsf_linear/
     ```bash
     pip install -r requirements.txt
     ```
-4. Run the train script:
+4. Run the model training script:
     ```bash
     python main.py
     ```
