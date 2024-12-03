@@ -71,10 +71,15 @@ ltsf_linear/
     ```bash
     pip install -r requirements.txt
     ```
-4. Run the main script:
+4. Run the train script:
     ```bash
     python main.py
     ```
+5. Run inference result and calculate test metrics:
+    ```bash
+    inference_result.ipynb
+    ```
+
 
 ### Contributions
 Contributions to improve this project are welcome. Please feel free to submit pull requests or open issues for discussion.
