@@ -20,7 +20,11 @@ The dataset used in this project is tailored for long-term time series forecasti
 ### Approach   
 - **Initial Implementation**: Recreate the models from the paper to establish a baseline.   
 - **Model Enhancement**: Introduce improvements to the baseline models by integrating CNN and NLinear architectures.   
-- **Evaluation**: Assess the performance of the models using metrics such as MAE, RMSE, MdAPE, and CORR on both validation and test sets.   
+- **Evaluation**: Assess the performance of the models using metrics such as MAE, RMSE on both validation and test sets.   
+- **Model Combination**:    
+  - **NDLinear Model**: Combine NLinear and DLinear models to enhance forecasting accuracy.   
+  - **CNN + NLinear Model**: Apply a combination of CNN and NLinear models for improved performance.   
+  - **Stacking with Attention Mechanism**: Implement a stacking structure utilizing attention mechanisms to combine all trained time series forecasting models.   
    
 ### Repository Structure
 ltsf_linear/  
