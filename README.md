@@ -25,6 +25,10 @@ The dataset used in this project is tailored for long-term time series forecasti
   - **NDLinear Model**: Combine NLinear and DLinear models to enhance forecasting accuracy.   
   - **CNN + NLinear Model**: Apply a combination of CNN and NLinear models for improved performance.   
   - **Stacking with Attention Mechanism**: Implement a stacking structure utilizing attention mechanisms to combine all trained time series forecasting models.   
+- **Custom Loss**:   
+  - Develop and apply custom loss functions tailored to the specific characteristics of long-term time series data.   
+  - Specifically, the custom loss function increases the weight of errors as the time step moves further from the encoder, addressing the challenge of predicting distant future values.   
+  - This custom loss was applied to all models for comparison.   
    
 ### Repository Structure
 ltsf_linear/  
