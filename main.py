@@ -74,9 +74,8 @@ if __name__ == "__main__":
     # Set torch
     device = torch.device("cpu")
     
-    # Hyper paremter of NLinear
-    logger.info("Training NLinear model")
     # Initialize NLinear model
+    logger.info("Training NLinear model")
     set_seed(SEED_NUM)
     nlinear_model = NLinearModel(
         window_size=NLINEAR_PARAMETER["window_size"],
@@ -86,7 +85,41 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train NLinear model
-    nlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
+    nlinear_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = False,
+        best_model_path = "./result/best_model__nlinear.pth",
+    )
+
+
+    # Initialize NLinear model(Custom Loss)
+    logger.info("Training NLinear model(Custom Loss)")
+    set_seed(SEED_NUM)
+    nlinear_cl_model = NLinearModel(
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        feature_size=NLINEAR_PARAMETER["feature_size"],
+        logger=logger,
+    ).to(device)
+    # Train NLinear model
+    nlinear_cl_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = True,
+        best_model_path = "./result/best_model__nlinear__custom_loss.pth",
+    )
 
 
     ## ------------------------------------ DLinear Training ------------------------------------ ##
@@ -101,7 +134,41 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train NLinear model
-    dlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
+    dlinear_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = False,
+        best_model_path = "./result/best_model__dlinear.pth",
+    )
+
+
+    # Initialize DLinear model(Custom Loss)
+    logger.info("Training DLinear model(Custom Loss)")
+    set_seed(SEED_NUM)
+    dlinear_cl_model = DLinearModel(
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        enc_in=NLINEAR_PARAMETER["feature_size"],
+        logger=logger,
+    ).to(device)
+    # Train NLinear model
+    dlinear_cl_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = True,
+        best_model_path = "./result/best_model__dlinear__custom_loss.pth",
+    )
 
 
     ## ------------------------------------ DLinear + NLinear Training ------------------------------------ ##
@@ -117,8 +184,43 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train NLinear model
-    dnlinear_model.train_model(train_loader, val_loader, test_loader, device, NLINEAR_PARAMETER['epochs'], NLINEAR_PARAMETER['learning_rate'])
+    dnlinear_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = False,
+        best_model_path = "./result/best_model__dnlinear.pth",
+    )
     
+
+    # Initialize DLinear model(Custom Loss)
+    logger.info("Training DLinear + NLinear model(Custom Loss)")
+    set_seed(SEED_NUM)
+    dnlinear_cl_model = DNLinearModel(
+        window_size=NLINEAR_PARAMETER["window_size"],
+        forecast_size=NLINEAR_PARAMETER["forecast_size"],
+        individual=NLINEAR_PARAMETER["individual"],
+        enc_in=NLINEAR_PARAMETER["feature_size"],
+        kernel_size=NLINEAR_PARAMETER["kernel_size"],
+        logger=logger,
+    ).to(device)
+    # Train NLinear model
+    dnlinear_cl_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = NLINEAR_PARAMETER['epochs'], 
+        lr = NLINEAR_PARAMETER['learning_rate'],
+        patience = 30,
+        custom_loss_flag = True,
+        best_model_path = "./result/best_model__dnlinear__custom_loss.pth",
+    )
+
     
     ## ------------------------------------ CNN_NLinear Training ------------------------------------ ##
     # Optimize Hybrid model or use default parameters
@@ -154,13 +256,49 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train CNN_NLinear model
-    cnn_nlinear_model.train_model(train_loader, val_loader, test_loader, device, hybrid_best_params['epochs'], hybrid_best_params['learning_rate'])
+    cnn_nlinear_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = hybrid_best_params['epochs'], 
+        lr = hybrid_best_params['learning_rate'],
+        patience = 30,
+        custom_loss_flag = False,
+        best_model_path = "./result/best_model__cnn_nlinear.pth",
+    )
+
+
+    # Train CNN_NLinear model(Custom Loss)
+    logger.info("Training CNN_NLinear model(Custom Loss)")
+    set_seed(SEED_NUM)
+    cnn_nlinear_cl_model = CNN_NLinear(
+        window_size=hybrid_best_params["window_size"],
+        forecast_size=hybrid_best_params["forecast_size"],
+        conv_kernel_size=hybrid_best_params["conv_kernel_size"],
+        conv_filters=hybrid_best_params["conv_filters"],
+        in_channels=hybrid_best_params["in_channels"],
+        dropout_rate=hybrid_best_params["dropout_rate"],
+        logger=logger,
+    ).to(device)
+    # Train CNN_NLinear model
+    cnn_nlinear_cl_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = hybrid_best_params['epochs'], 
+        lr = hybrid_best_params['learning_rate'],
+        patience = 30,
+        custom_loss_flag = True,
+        best_model_path = "./result/best_model__cnn_nlinear__custom_loss.pth",
+    )
 
 
     ## ------------------------------------ NLinear + CNN_NLinear Training ------------------------------------ ##
+    ## Initialize Hybrid model
     logger.info("Training Hybrid model")
     set_seed(SEED_NUM)
-    ## Initialize Hybrid model
     hybrid_model = HybridModel(
         models=[nlinear_model, dlinear_model, dnlinear_model, cnn_nlinear_model],
         window_size=hybrid_best_params["window_size"],
@@ -168,14 +306,43 @@ if __name__ == "__main__":
         logger=logger,
     ).to(device)
     # Train Hybrid model
-    hybrid_model.train_model(train_loader, val_loader, test_loader, device, hybrid_best_params['epochs'], hybrid_best_params['learning_rate'])
+    hybrid_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = hybrid_best_params['epochs'], 
+        lr = hybrid_best_params['learning_rate'],
+        patience = 30,
+        custom_loss_flag = False,
+        best_model_path = "./result/best_model__hybrid.pth",
+    )
+
+
+    ## Initialize Hybrid model(Custom Loss)
+    logger.info("Training Hybrid model(Custom Loss)")
+    set_seed(SEED_NUM)
+    hybrid_cl_model = HybridModel(
+        models=[nlinear_model, dlinear_model, dnlinear_model, cnn_nlinear_model],
+        window_size=hybrid_best_params["window_size"],
+        dropout_rate=hybrid_best_params["dropout_rate"],
+        logger=logger,
+    ).to(device)
+    # Train Hybrid model
+    hybrid_cl_model.train_model(
+        train_loader = train_loader,
+        val_loader = val_loader,
+        test_loader = test_loader,
+        device = device,
+        epochs = hybrid_best_params['epochs'], 
+        lr = hybrid_best_params['learning_rate'],
+        patience = 30,
+        custom_loss_flag = True,
+        best_model_path = "./result/best_model__hybrid__custom_loss.pth",
+    )
 
     
     ## ------------------------------------ Predict for test set ------------------------------------ ##
-    nlinear_predictions = nlinear_model.predict(test_loader, device)
-    cnn_nlinear_predictions = cnn_nlinear_model.predict(test_loader, device)
-    hybrid_predictions = hybrid_model.predict(test_loader, device)
-
     # Evaluate both models
     logger.info("Evaluating models.")
     nlinear_pred_result = nlinear_model.final_predict(test_set, test_loader, device, logger)
@@ -183,6 +350,14 @@ if __name__ == "__main__":
     dnlinear_pred_result = dnlinear_model.final_predict(test_set, test_loader, device, logger)
     cnn_nlinear_pred_result = cnn_nlinear_model.final_predict(test_set, test_loader, device, logger)
     hybrid_pred_result = hybrid_model.final_predict(test_set, test_loader, device, logger)
+
+    # Evaluate both models(Custom Loss)
+    logger.info("Evaluating models(Custom Loss).")
+    nlinear_cl_pred_result = nlinear_cl_model.final_predict(test_set, test_loader, device, logger)
+    dlinear_cl_pred_result = dlinear_cl_model.final_predict(test_set, test_loader, device, logger)
+    dnlinear_cl_pred_result = dnlinear_cl_model.final_predict(test_set, test_loader, device, logger)
+    cnn_nlinear_cl_pred_result = cnn_nlinear_cl_model.final_predict(test_set, test_loader, device, logger)
+    hybrid_cl_pred_result = hybrid_cl_model.final_predict(test_set, test_loader, device, logger)
 
     
     # ## ------------------------------------ Visualize Predict Result ------------------------------------ ##

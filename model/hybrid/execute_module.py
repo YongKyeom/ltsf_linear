@@ -10,6 +10,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from typing import Optional, Tuple
 
+from model.custom_loss import WeightedMSELoss
 from utils.metrics import metric
 
 
@@ -103,9 +104,13 @@ class HybridModel(nn.Module):
         epochs: int = 100,
         lr: float = 0.005,
         patience: int = 30,
+        custom_loss_flag: bool = False,
         best_model_path = "./result/best_model__hybrid.pth"
     ):
-        criterion = nn.MSELoss()
+        if custom_loss_flag is True:
+            criterion = WeightedMSELoss(weight_type='linear', alpha=0.1)
+        else:
+            criterion = nn.MSELoss()
         optimizer = optim.AdamW(self.parameters(), lr=lr, weight_decay=1e-5)
         scheduler = ReduceLROnPlateau(optimizer, mode="min", factor=0.1, patience=patience // 5, verbose=True)
 
