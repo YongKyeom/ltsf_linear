@@ -30,7 +30,12 @@ The dataset used in this project is tailored for long-term time series forecasti
   - Specifically, the custom loss function increases the weight of errors as the time step moves further from the encoder, addressing the challenge of predicting distant future values.   
   - This custom loss was applied to all models for comparison.   
    
-### Repository Structure
+### Usage   
+- **Model Training**: Run `main.py` to train the models.   
+- **Inference and Visualization**: Use `inference_result.ipynb` to load the trained models and perform inference and visualization.   
+- **Model Files**: The trained model files are stored in the `result` folder.   
+   
+### Repository Structure   
 ltsf_linear/  
 ├── common/  
 │   ├── __init__.py  
